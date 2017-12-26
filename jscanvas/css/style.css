@@ -1,0 +1,24 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+div * {
+    box-sizing: border-box;
+}
+
+#canvas{
+    background: linear-gradient(to bottom, #cfe7fa 0%,#6393c1 100%);
+    padding: 0;
+    margin: 0;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}

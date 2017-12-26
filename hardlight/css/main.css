@@ -1,0 +1,48 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+* div {
+    box-sizing: border-box;
+}
+
+.container{
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template: 200px auto 200px / repeat(12, 1fr);
+    grid-gap: 3px;
+    grid-template-areas:
+    "h h h h h h h h h h h h"
+    "c c c c c c c c c s s s"
+    "f f f f f f f f f f f f";
+}
+
+.container > div {
+    border: 1px solid #000;
+}
+
+.header{
+    grid-area: h;
+    background: url('../img/ethernet.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center center;
+}
+
+.content{
+    grid-area: c;
+}
+
+.sidebar{
+    grid-area: s;
+}
+
+.footer{
+    grid-area: f;
+}
