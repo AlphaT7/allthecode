@@ -923,23 +923,13 @@ $(document).ready(function() {
   $('body').contextmenu(function(e) {
     e.preventDefault();
   });
-
   
   $('.gamecell').height($('.gamecell').width());
   $('.cellprefix').height($('.cellprefix').width());
+
   window.onresize = function (event) {
     $('.gamecell').height($('.gamecell').width());
     $('.cellprefix').height($('.cellprefix').width());
-    //applyOrientation();
   }
-  
-  function applyOrientation() {
-    if (window.innerHeight > window.innerWidth) {
-      alert("You are now in portrait");
-    } else {
-      alert("You are now in landscape");
-    }
-  }
-
 
 });
