@@ -1,155 +1,150 @@
+let c = document.getElementById('canvas');
+let ctx = c.getContext('2d');
 
-    let c = document.getElementById('canvas');
-    let ctx = c.getContext('2d');
+let main = {
+    vars: {
+        color: {
+            c0: 'rgba(255, 255, 255, 0)',
+            c1: 'rgba(255, 255, 255, .1)',
+            c2: 'rgba(255, 255, 255, .15)',
+            c3: 'rgba(255, 255, 255, .2',
+            c4: 'rgba(255, 255, 255, .25)',
+            c5: 'rgba(255, 255, 255, .3',
+            c6: 'rgba(255, 255, 255, .35',
+            c7: 'rgba(255, 255, 255, .4',
 
-    let main = {
-        vars: {
-/*            
-            color: {
-                blue1: 'rgba(227, 242, 253, 1)',
-                blue2: 'rgba(187, 222, 251, 1)',
-                blue3: 'rgba(144, 202, 249, 1)',
-                blue4: 'rgba(100, 181, 246, 1)',
-                blue5: 'rgba(227, 242, 253, 1)'
-            },
-*/
-            color: {
-                blue1: 'rgba(100, 181, 246, 0)',
-                blue2: 'rgba(100, 181, 246, .3)',
-                blue3: 'rgba(100, 181, 246, .5)',
-                blue4: 'rgba(100, 181, 246, .7',
-                blue5: 'rgba(100, 181, 246, 1)'
-            },
+        },
         squares: [],
         step: 0,
         increment: 0,
-        increment2: 0
-
-
+        groups: {
+            g1_flag: false,
+            g1_random: 0,
+            g_count1: 0,
+            g_count2: 8,
+            g_limit: 8
+        }
     },
 
     methods: {
-        setup: function (){
+        setup: function () {
             let dimension = document.body.getBoundingClientRect();
             let canvas = document.getElementById('canvas');
 
             canvas.width = dimension.width;
             //canvas.height = dimension.height;
             canvas.height = 300;
+            main.methods.gridsetup();
         },
 
-        drawsquare: function(x,y,w,h,c){
-            ctx.fillStyle = c;
-            ctx.fillRect(x,y,w,h);
+        drawsquare: function (s) {
+            ctx.fillStyle = s.c;
+            ctx.fillRect(s.x, s.y, s.w, s.h);
         },
 
-        drawborder: function(x,y,w,h,c){
-            ctx.strokeStyle='#fff';
-            ctx.strokeRect(x,y,w,h);
+        drawborder: function (x, y, w, h, c) {
+            ctx.strokeStyle = '#fff';
+            ctx.strokeRect(x, y, w, h);
         },
-        
-        grid: function(){
+
+        gridsetup: function () {
             main.vars.squares.length = 0;
             let width = document.getElementById('canvas').width;
             //let height = document.getElementById('canvas').height;
             let height = 300;
 
-            let w = Math.floor(width / 50)+1;
-            let h = Math.floor(height / 50)+1;
+            let w = Math.floor(width / 50) + 1;
+            let h = Math.floor(height / 50) + 1;
             let c = 1;
 
-            for (let i = 0; i < h; i ++){
+            for (let i = 0; i < h; i++) {
                 let y = 51 * i;
-                for (let i = 0; i < w; i ++){
+                for (let i = 0; i < w; i++) {
                     let x = 51 * i;
-                    if (c <= 5){
-                        main.methods.drawborder(x,y,50,50,main.vars.color['blue'+c]);
-                        //main.methods.square(x,y,50,50,main.vars.color.blue4);
-                        main.vars.squares.push({x: x, y: y, w: 50, h: 50, c: main.vars.color['blue'+c]})
-                        //main.vars.squares.push({x: x, y: y, w: 50, h: 50, c: main.vars.color.blue4})
-                        c ++;
+                    if (c <= 7) {
+                        //main.methods.drawborder(x,y,50,50,main.vars.color['c7']);
+                        //main.vars.squares.push({ x: x, y: y, w: 50, h: 50, c: main.vars.color['c' + c] })
+                        main.vars.squares.push({ x: x, y: y, w: 50, h: 50, c: main.vars.color['c0'] })
+                        c++;
                     } else {
                         c = 1;
-                        main.methods.drawborder(x,y,50,50,main.vars.color['blue'+c]);
-                        //main.methods.square(x,y,50,50,main.vars.color.blue4);
-                        main.vars.squares.push({x: x, y: y, w: 50, h: 50, c: main.vars.color['blue'+c]})
-                        //main.vars.squares.push({x: x, y: y, w: 50, h: 50, c: main.vars.color.blue4})
-                        c ++;
+                        //main.methods.drawborder(x,y,50,50,main.vars.color['c7']);
+                        main.vars.squares.push({ x: x, y: y, w: 50, h: 50, c: main.vars.color['c0'] })
+                        c++;
                     }
                 }
             }
         },
 
-        animate: function(){
+        gridanimate: function () {
 
-             function getRandomArbitrary() {
-                //return Math.random() * (max - min) + min;
-                return Math.floor(Math.random() * ((Math.floor(document.getElementById('canvas').width*6 / 50)) - 5) + 5);
+            let mvg = main.vars.groups;
+            let mvc = main.vars.color;
+
+            if (mvg.g1_flag == false) {
+
+                mvg.g1_random = main.methods.getRandomArbitrary();
+                mvg.g1_flag = true;
+                
+            } else if (mvg.g_count1 < mvg.g_limit){
+
+                main.vars.squares[mvg.g1_random].c = mvc['c'+mvg.g_count1];
+                mvg.g1_random += 1;
+                mvg.g_count1 ++;
+                
+            } else if (mvg.g_count1 == mvg.g_limit){
+                main.vars.squares.forEach(function(element, index, array){
+                    if (element.c == mvc['c7']) {
+                        element.c = mvc['c6'];
+                    } else if (element.c == mvc['c6']){
+                        element.c = mvc['c5'];
+                    } else if (element.c == mvc['c5']){
+                        element.c = mvc['c4'];
+                    } else if (element.c == mvc['c4']){
+                        element.c = mvc['c3'];
+                    } else if (element.c == mvc['c3']){
+                        element.c = mvc['c2'];
+                    } else if (element.c == mvc['c2']){
+                        element.c = mvc['c1'];
+                    } else if (element.c == mvc['c1']){
+                        element.c = mvc['c0'];
+                    }
+                });
+                mvg.g_count2 --;
+                if (mvg.g_count2 <= 0){
+                    mvg.g1_flag = false;
+                    mvg.g_count1 = 0;
+                    mvg.g_count2 = 8;
+                }
             }
 
-            if (main.vars.step % 8 == 0){
-                let s = main.vars.squares;
-                let i = main.vars.increment;
-
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                main.methods.grid();
-
-                switch (main.vars.increment){
-                    case 0:
-                        main.methods.drawsquare(s[i].x,s[i].y,s[i].w, s[i].h,main.vars.color['blue5']);
-                        break;
-
-                    case 1:
-                        main.methods.drawsquare(s[i].x,s[i].y,s[i].w, s[i].h,main.vars.color['blue5']);
-                        main.methods.drawsquare(s[i-1].x,s[i-1].y,s[i-1].w, s[i-1].h,main.vars.color['blue4']);
-                        break;
-
-                    case 2:
-                        main.methods.drawsquare(s[i].x,s[i].y,s[i].w, s[i].h,main.vars.color['blue5']);
-                        main.methods.drawsquare(s[i-1].x,s[i-1].y,s[i-1].w, s[i-1].h,main.vars.color['blue4']);
-                        main.methods.drawsquare(s[i-2].x,s[i-2].y,s[i-2].w, s[i-2].h,main.vars.color['blue3']);
-                        break;
-
-                    case 3:
-                        main.methods.drawsquare(s[i].x,s[i].y,s[i].w, s[i].h,main.vars.color['blue5']);
-                        main.methods.drawsquare(s[i-1].x,s[i-1].y,s[i-1].w, s[i-1].h,main.vars.color['blue4']);
-                        main.methods.drawsquare(s[i-2].x,s[i-2].y,s[i-2].w, s[i-2].h,main.vars.color['blue3']);
-                        main.methods.drawsquare(s[i-3].x,s[i-3].y,s[i-3].w, s[i-3].h,main.vars.color['blue2']);
-                        break;
-
-                    case 4:
-                        main.methods.drawsquare(s[i].x,s[i].y,s[i].w, s[i].h,main.vars.color['blue5']);
-                        main.methods.drawsquare(s[i-1].x,s[i-1].y,s[i-1].w, s[i-1].h,main.vars.color['blue4']);
-                        main.methods.drawsquare(s[i-2].x,s[i-2].y,s[i-2].w, s[i-2].h,main.vars.color['blue3']);
-                        main.methods.drawsquare(s[i-3].x,s[i-3].y,s[i-3].w, s[i-3].h,main.vars.color['blue2']);
-                        main.methods.drawsquare(s[i-4].x,s[i-4].y,s[i-4].w, s[i-4].h,main.vars.color['blue1']);
-                        break;
-
-                    default:
-
-                        main.methods.drawsquare(s[i].x,s[i].y,s[i].w, s[i].h,main.vars.color['blue5']);
-                        main.methods.drawsquare(s[i-1].x,s[i-1].y,s[i-1].w, s[i-1].h,main.vars.color['blue4']);
-                        main.methods.drawsquare(s[i-2].x,s[i-2].y,s[i-2].w, s[i-2].h,main.vars.color['blue3']);
-                        main.methods.drawsquare(s[i-3].x,s[i-3].y,s[i-3].w, s[i-3].h,main.vars.color['blue2']);
-                        main.methods.drawsquare(s[i-4].x,s[i-4].y,s[i-4].w, s[i-4].h,main.vars.color['blue1']);
-                        break;
-                }
-                
-                main.vars.increment2 ++;
-                main.vars.increment ++;
-/*
-                if (main.vars.increment2 > 10) {
-                    main.vars.increment2 = 0;
-                    main.vars.increment = getRandomArbitrary()
-                }
-*/          } 
         },
 
-        step: function(){
+        getRandomArbitrary: function () {
+            //return Math.random() * (max - min) + min;
+            return Math.floor(Math.random() * ((Math.floor(document.getElementById('canvas').width * 6 / 50)) - 7) + 7);
+        },
+
+        animate: function () {
+
+            if (main.vars.step % 10 == 0) {
+                let s = main.vars.squares;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                main.methods.gridanimate();
+
+                s.forEach(function (element, index, array) {
+                    main.methods.drawsquare(element);
+                });
+            }
+        },
+
+        step: function () {
 
             main.methods.animate();
 
-            main.vars.step ++;
+            main.vars.step++;
 
             window.requestAnimationFrame(main.methods.step);
         }
@@ -158,6 +153,4 @@
 }
 
 main.methods.setup();
-//main.methods.grid();
-//main.methods.animate();
 main.methods.step();
