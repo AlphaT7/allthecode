@@ -1,0 +1,322 @@
+/* https://envato.com/blog/css-snippets-responsive-menus/ */  /* <<<------ HAS AWESOME CSS/JS MENU DESIGN I WANT TO TRY */
+/* https://codepen.io/PriscaS/pen/pGHxJ */ /* <<<--- EXCELENT ALTERNATIVE */
+/* https://codepen.io/eeebb/pen/wBmWaE */ /* <<<<<----- BUT THIS IS THE BEST DESIGN!!! */
+
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  z-index: 1;
+}
+
+div{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  box-sizing: border-box;
+}
+
+img {
+  margin: 0;
+  border: none;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#header {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  opacity: .5;
+  padding: 0;
+}
+
+#canvas{
+  background: linear-gradient(to bottom, #cfe7fa 0%,#6393c1 100%);
+  padding: 0;
+  margin: 0;
+}
+
+.centerwidth{
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 20px;
+  background: rgba(255,255,255,.8);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.45);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.centerwidth:before {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  margin: 0;
+  margin-top: -20px;
+  display: block;
+  background-image: url('../images/blue_cube_array.jpg');
+  background-size:cover;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+}
+
+#maintitle{
+  background:
+    linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+    linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+    linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+    linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+    linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+    linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+    background-color: #131313;
+    background-size: 20px 20px;
+  height: 200px;
+  padding: 20px;
+  color: #fff;
+  border: 1px solid #C0C0C0;
+  border-style: inset;
+  margin: 0;
+  overflow: hidden;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+#maincontent{
+  height: 1000px;
+  width: 100%;
+  border-right: 1px solid #C0C0C0;
+  border-left: 1px solid #C0C0C0;
+  overflow: hidden;
+  background-color: rgba(0,0,0,.3);
+  position: relative;
+}
+
+#footer{
+  background: grey;
+  width: 100%;
+  height: 300px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 200px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid #C0C0C0;
+}
+
+#particles-js{
+  height: 100%;
+  width: 100%;
+  position: relative;
+  max-width: 1235px;
+  margin: auto;
+  z-index: 1;
+  border: 1px solid #000;
+}
+
+#maintitle p{
+  position: absolute;
+  margin: 5px;
+}
+
+.mc_div{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 5px;
+  position: relative;
+  background: rgba(0,0,0,.5);
+  background: rgba(40,110,225,.5);
+  color: #fff;
+  z-index: 2;
+  position: absolute;
+  top: 200px;
+  left: 0;
+}
+
+/* --- HEXAGON CSS --- */
+
+.hiddenhex {
+  visibility: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#hexGrid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto;
+  overflow: hidden;
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  list-style-type: none;
+}
+
+.hex {
+  position: relative;
+  visibility:hidden;
+  outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
+}
+.hex::after{
+  content:'';
+  display:block;
+  padding-bottom: 86.602%;  /* =  100 / tan(60) * 1.5 */
+}
+.hexIn{
+  position: absolute;
+  width:96%;
+  padding-bottom: 110.851%; /* =  width / sin(60) */
+  margin:0 2%;
+  overflow: hidden;
+  visibility: hidden;
+  outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
+  -webkit-transform: rotate3d(0,0,1,-60deg) skewY(30deg);
+      -ms-transform: rotate3d(0,0,1,-60deg) skewY(30deg);
+          transform: rotate3d(0,0,1,-60deg) skewY(30deg);
+}
+.hexIn * {
+  position: absolute;
+  visibility: visible;
+  outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
+}
+.hexLink {
+    display:block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    -webkit-transform: skewY(-30deg) rotate3d(0,0,1,60deg);
+        -ms-transform: skewY(-30deg) rotate3d(0,0,1,60deg);
+            transform: skewY(-30deg) rotate3d(0,0,1,60deg);
+}
+
+/*** HEX CONTENT **********************************************************************/
+.hex img {
+  left: -100%;
+  right: -100%;
+  width: auto;
+  height: 100%;
+  margin: 0 auto;
+  -webkit-transform: rotate3d(0,0,0,0deg);
+      -ms-transform: rotate3d(0,0,0,0deg);
+          transform: rotate3d(0,0,0,0deg);
+}
+
+.hex h1, .hex p {
+  width: 100%;
+  padding: 5%;
+  box-sizing:border-box;
+  background-color: rgba(0, 128, 128, 0.8);
+  font-weight: 300;
+  -webkit-transition:  -webkit-transform .2s ease-out, opacity .3s ease-out;
+          transition:          transform .2s ease-out, opacity .3s ease-out;
+}
+.hex h1 {
+  bottom: 50%;
+  padding-top:50%;
+  font-size: 1.5em;
+  z-index: 1;
+  -webkit-transform:translate3d(0,-100%,0);
+      -ms-transform:translate3d(0,-100%,0);
+          transform:translate3d(0,-100%,0);
+}
+.hex h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 45%;
+  width: 10%;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+}
+.hex p {
+  top: 50%;
+  padding-bottom:50%;
+  -webkit-transform:translate3d(0,100%,0);
+      -ms-transform:translate3d(0,100%,0);
+          transform:translate3d(0,100%,0);
+}
+
+
+/*** HOVER EFFECT  **********************************************************************/
+.hexLink:hover h1, .hexLink:focus h1,
+.hexLink:hover p, .hexLink:focus p{
+  -webkit-transform:translate3d(0,0,0);
+      -ms-transform:translate3d(0,0,0);
+          transform:translate3d(0,0,0);
+}
+
+/*** HEXAGON SIZING AND EVEN ROW INDENTATION *****************************************************************/
+@media (min-width:1201px) { /* <- 5-4  hexagons per row */
+  #hexGrid{
+    padding-bottom: 4.4%
+  }
+  .hex {
+    width: 20%; /* = 100 / 5 */
+  }
+  .hex:nth-child(9n+6){ /* first hexagon of even rows */
+    margin-left:10%;  /* = width of .hex / 2  to indent even rows */
+  }
+}
+
+@media (max-width: 1200px) and (min-width:901px) { /* <- 4-3  hexagons per row */
+  #hexGrid{
+    padding-bottom: 5.5%
+  }
+  .hex {
+    width: 25%; /* = 100 / 4 */
+  }
+  .hex:nth-child(7n+5){ /* first hexagon of even rows */
+    margin-left:12.5%;  /* = width of .hex / 2  to indent even rows */
+  }
+}
+
+@media (max-width: 900px) and (min-width:601px) { /* <- 3-2  hexagons per row */
+  #hexGrid{
+    padding-bottom: 7.4%
+  }
+  .hex {
+    width: 33.333%; /* = 100 / 3 */
+  }
+  .hex:nth-child(5n+4){ /* first hexagon of even rows */
+    margin-left:16.666%;  /* = width of .hex / 2  to indent even rows */
+  }
+}
+
+@media (max-width: 600px) { /* <- 2-1  hexagons per row */
+  #hexGrid{
+    padding-bottom: 11.2%
+  }
+  .hex {
+    width: 50%; /* = 100 / 3 */
+  }
+  .hex:nth-child(3n+3){ /* first hexagon of even rows */
+    margin-left:25%;  /* = width of .hex / 2  to indent even rows */
+  }
+}
+
+@media (max-width: 400px) {
+    #hexGrid {
+        font-size: 13px;
+    }
+}
