@@ -18,6 +18,7 @@ let main = {
         step: 0,
         increment: 0,
         totalgroups: 0,
+        maincount: 1,
         groups: {
             /*
             tstamp + flag: false,
@@ -37,25 +38,19 @@ let main = {
             canvas.width = dimension.width;
             //canvas.height = dimension.height;
             canvas.height = 300;
-            main.vars.totalgroups = Math.floor(((canvas.width * canvas.height / (25*25)) * .15) / 8);
+            main.vars.totalgroups = Math.floor(((canvas.width * canvas.height / (25 * 25)) * .75) / 8);
             let i = 0;
             function createGridVars() {
 
                 if (i < main.vars.totalgroups) {
                     let tstamp = Date.now();
                     main.vars.groups[i] = tstamp;
-                    main.vars.groups[tstamp + 'flag'] = false;
-                    main.vars.groups[tstamp + 'random'] = main.methods.getRandomArbitrary();
-                    main.vars.groups[tstamp + 'count1'] = 0;
-                    main.vars.groups[tstamp + 'count2'] = 8;
-                    main.vars.groups[tstamp + 'limit'] = 8;
-
-                    main.vars.groups1[i] = tstamp;
-                    main.vars.groups1[tstamp + 'flag'] = false;
-                    main.vars.groups1[tstamp + 'random'] = main.methods.getRandomArbitrary();
-                    main.vars.groups1[tstamp + 'count1'] = 0;
-                    main.vars.groups1[tstamp + 'count2'] = 8;
-                    main.vars.groups1[tstamp + 'limit'] = 8;
+                    main.vars.groups[tstamp + 'flag'] = false; // if false, than new random needs to be set;
+                    main.vars.groups[tstamp + 'random'] = main.methods.getRandomArbitrary(); // randomly selected square within the grid;
+                    main.vars.groups[tstamp + 'count1'] = 0; // counts up to 8 and then resets to 0;
+                    main.vars.groups[tstamp + 'count2'] = 8; // counts down to 0 and then resets to 8;
+                    //main.vars.groups[tstamp + 'count3'] = 0; // counts up to 5 and then resets to 0;
+                    main.vars.groups[tstamp + 'limit'] = 8; // limit is the number of squares in each group;
 
                     i++;
                     setTimeout(function () { createGridVars(); }, 15);
@@ -118,8 +113,8 @@ let main = {
                 mvg[tstamp + 'count1']++;
 
             } else if (mvg[tstamp + 'count1'] == mvg[tstamp + 'limit']) {
-                for ( let i = mvg[tstamp + 'random']-7; i <= (mvg[tstamp + 'random']); i ++){
-                    switch (main.vars.squares[i].c){
+                for (let i = mvg[tstamp + 'random'] - 7; i <= (mvg[tstamp + 'random']); i++) {
+                    switch (main.vars.squares[i].c) {
                         case mvc['c7']:
                             main.vars.squares[i].c = mvc['c6'];
                             break;
@@ -145,8 +140,8 @@ let main = {
                             break;
                     }
                 };
-                console.log(mvg[tstamp + 'count2']+'t'+tstamp);
-                
+                console.log(mvg[tstamp + 'count2'] + 't' + tstamp);
+
                 if (mvg[tstamp + 'count2'] <= 0) {
                     mvg[tstamp + 'flag'] = false;
                     mvg[tstamp + 'count1'] = 0;
@@ -209,23 +204,54 @@ let main = {
 
         animate: function () {
 
-            if (main.vars.step % 5 == 0) {
+            if (main.vars.step % 8 == 0) {
                 let s = main.vars.squares;
-
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                for (i = 0; i < main.vars.totalgroups; i++) {
-                    main.methods.gridanimate(main.vars.groups[i]);
+                if (main.vars.maincount <= 1) {
+                    for (i = 0; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    main.vars.maincount++;
+                } else if (main.vars.maincount <= 5) {
+                    for (i = 0; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 1; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    main.vars.maincount++;
+                } else if (main.vars.maincount <= 10) {
+                    for (i = 0; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 1; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 2; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    main.vars.maincount++;
+                } else if (main.vars.maincount <= 15) {
+                    for (i = 0; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 1; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 2; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 3; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    main.vars.maincount++;
+                } else if (main.vars.maincount <= 20) {
+                    for (i = 0; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 1; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 2; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 3; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 4; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    main.vars.maincount++;
+                } else {
+                    for (i = 0; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 1; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 2; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 3; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
+                    for (i = 4; i < main.vars.totalgroups; i += 5) { main.methods.gridanimate(main.vars.groups[i]); }
                 }
-/*
-                for (i = 0; i < main.vars.totalgroups; i++) {
-                    main.methods.gridanimate(main.vars.groups1[i]);
-                }
-*/
-                s.forEach(function (element, index, array) {
-                    main.methods.drawsquare(element);
-                });
+
+            /*
+                            for (i = 0; i < main.vars.totalgroups; i += 5) {
+                                main.methods.gridanimate(main.vars.groups[i]);
+                            }
+            */
+            s.forEach(function (element, index, array) {
+                main.methods.drawsquare(element);
+            });
+
             }
+
         },
 
         step: function () {
