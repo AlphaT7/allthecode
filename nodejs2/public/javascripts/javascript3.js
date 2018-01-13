@@ -28,7 +28,6 @@ let main = {
             tstamp + limit: 8
             */
         },
-        groups1: {}
     },
 
     methods: {
@@ -38,7 +37,7 @@ let main = {
             canvas.width = dimension.width;
             //canvas.height = dimension.height;
             canvas.height = 79;
-            main.vars.totalgroups = Math.floor(((canvas.width * canvas.height / (25 * 25)) * .75) / 8);
+            main.vars.totalgroups = Math.floor(((canvas.width * canvas.height / (25 * 25)) * .80) / 8);
             let i = 0;
             function createGridVars() {
 

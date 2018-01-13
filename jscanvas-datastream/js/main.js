@@ -27,8 +27,7 @@ let main = {
             tstamp + count2: 8,
             tstamp + limit: 8
             */
-        },
-        groups1: {}
+        }
     },
 
     methods: {

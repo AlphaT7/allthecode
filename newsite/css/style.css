@@ -1,0 +1,362 @@
+/* https://envato.com/blog/css-snippets-responsive-menus/ */
+
+/* <<<------ HAS AWESOME CSS/JS MENU DESIGN I WANT TO TRY */
+
+/* https://codepen.io/PriscaS/pen/pGHxJ */
+
+/* <<<--- EXCELENT ALTERNATIVE */
+
+/* https://codepen.io/eeebb/pen/wBmWaE */
+
+/* <<<<<----- BUT THIS IS THE BEST DESIGN!!! */
+
+/* --- R E S P O N S I V E --- S I T E --- */
+
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css");
+html, body {
+    font-weight: 300;
+    font-size: 14px;
+    color: #333;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    margin: 0;
+    border: none;
+}
+
+#canvas {
+    background: linear-gradient(to bottom, rgba(30, 87, 153, 1) 0%, rgba(41, 137, 216, 1) 50%, rgba(32, 124, 202, 1) 51%, rgba(125, 185, 232, 1) 100%);
+    background: linear-gradient(to bottom, rgba(167, 207, 223, 1) 0%, rgba(35, 83, 138, 1) 100%);
+    background: linear-gradient(to bottom, #cfe7fa 0%, #6393c1 100%);
+    padding: 0;
+    margin: 0;
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+#img{
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    float: right;
+    margin: 0 20px 0 0;
+}
+
+.tagcloud {
+    float: left;
+    width: 300px;
+    margin: 0 15px 0 0;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-weight: bolder;
+    line-height: 1.4em;
+    text-decoration: none;
+    padding: 10px;
+    background: rgb(128, 128, 128);
+    box-shadow: 10px 10px 24px -8px rgba(0,0,0,0.75);
+}
+
+#p4 span1 {
+    text-align: center;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 24em;
+}
+
+#wrapper {
+    margin: 0 auto -50px;
+    background: #fff;
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+#header {
+    text-align: center;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 50px;
+}
+
+#header .width {
+    color: #888;
+    text-transform: lowercase;
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+#header .lang {
+    font-size: 1em;
+    position: absolute;
+    right: 1.2em;
+    top: 1em;
+}
+
+.animated {
+    -webkit-animation-duration: 800ms;
+    animation-duration: 800ms;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.animated.slideUp {
+    animation-name: slideUp;
+}
+
+.animated.slideDown {
+    animation-name: slideDown;
+}
+
+.animated.fadeIn.slideLeft {
+    animation-name: fadeIn, slideLeft;
+}
+
+.animated.fadeOut.slideRight {
+    animation-name: fadeOut, slideRight;
+}
+
+.animated.fadeIn {
+    animation-name: fadeIn;
+}
+
+.animated.fadeOut {
+    animation-name: fadeOut;
+}
+
+nav {
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 1em;
+    padding: 10px;
+    text-align: center;
+    position: absolute;
+    width: inherit;
+}
+
+nav #nav-inner {
+    max-width: 960px;
+    margin: auto;
+    position: relative;
+    z-index: 9999;
+}
+
+nav .sitetitle {
+    display: inline;
+    position: absolute;
+    left: 20px;
+}
+
+nav .sitetitle span {
+    margin-right: 8px;
+}
+
+@media only screen and (max-width: 479px) {
+    nav .sitetitle {
+        display: inline-block;
+    }
+    nav .sitetitle span {
+        vertical-align: top;
+        margin-left: -20px;
+    }
+}
+
+nav ul {
+    display: inline;
+    left: 50%;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+nav ul li a {
+    font-weight: 700;
+    display: inline-block;
+    color: #999999;
+    text-decoration: none;
+    transition: color 0.5s;
+}
+
+nav ul li a:visited, nav ul li a:active, nav ul li a:hover, nav ul li a.current {
+    color: #666666;
+    text-decoration: none;
+}
+
+nav ul .glyphicon-menu-hamburger {
+    color: #888;
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    opacity: 0;
+}
+
+@media only screen and (max-width: 479px) {
+    nav.stickied ul {
+        margin-top: 2em;
+        margin-bottom: 0;
+        display: inline-block;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    nav.stickied ul li {
+        display: none;
+    }
+    nav.stickied ul li.active {
+        display: inline;
+    }
+    nav.stickied ul:hover li {
+        display: block;
+    }
+    nav.stickied ul:hover li a {
+        display: block;
+    }
+    nav.stickied ul:hover .glyphicon-menu-hamburger {
+        opacity: 0;
+    }
+    nav.stickied ul .glyphicon-menu-hamburger {
+        opacity: 1;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    nav.stickied ul {
+        display: inline-block;
+        top: 30px;
+        left: 50px;
+    }
+    nav.stickied ul li {
+        display: none;
+    }
+    nav.stickied ul li.active {
+        display: block;
+    }
+    nav.stickied ul:hover li {
+        display: block;
+    }
+}
+
+nav .lang {
+    font-size: 1em;
+    position: absolute;
+    right: 1em;
+}
+
+nav .on-sticky {
+    display: inline;
+    opacity: 0;
+}
+
+nav .bottom-shadow {
+    -webkit-box-shadow: 4px 27px 25px -18px #636363;
+    -moz-box-shadow: 4px 27px 25px -18px #636363;
+    box-shadow: 4px 27px 25px -18px #636363;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: inherit;
+    height: inherit;
+    opacity: 0;
+}
+
+section {
+    padding-top: 40px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+section p {
+    line-height: 22px;
+    margin: 50px 0;
+    padding: 0 10px;
+}
+
+section p:last-child {
+    padding-bottom: 700px;
+}
+
+#return-top {
+    font-size: 2.6em;
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+    cursor: pointer;
+    opacity: 0;
+    color: rgba(0, 0, 0, 0.3);
+}

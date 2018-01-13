@@ -40,6 +40,7 @@ a {
 
 #canvas{
   background: linear-gradient(to bottom, #cfe7fa 0%,#6393c1 100%);
+  background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);
   padding: 0;
   margin: 0;
 }
