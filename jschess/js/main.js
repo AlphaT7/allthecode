@@ -594,14 +594,14 @@ let main = {
         name: $('#' + main.variables.selectedpiece).attr('chess'),
         id: main.variables.selectedpiece
       };
-      
+
       movebackup = main.variables.pieces[selectedpiece.name].position;
       main.variables.pieces[selectedpiece.name].position = target.id;
       $('#' + target.id).attr('chess', selectedpiece.name);
       main.variables.pieces[target.name].captured = true;
 
-      if (main.variables.turn == 'w'){
-        
+      if (main.variables.turn == 'w') {
+
         if (main.methods.check('b') == true) {
           main.methods.message('Your king is in check!');
 
@@ -610,24 +610,61 @@ let main = {
           main.variables.pieces[target.name].captured = false;
         } else if (main.methods.check('b') == false) {
 
-        }
-          
-      } else {
-        
-        if (main.variables.checkposition != '') {
-          main.methods.togglecheck();
-          main.variables.checkposition = '';
+          if (main.methods.check('w') == true) {
+            main.variables.checkposition = main.variables.pieces.b_king.position;
+            main.methods.togglecheck();
+
+            $('#' + target.id).html(main.variables.pieces[selectedpiece.name].img);
+            $('#' + movebackup).html('');
+            main.variables.pieces[selectedpiece.name].moved = true;
+          } else {
+
+            if (main.variables.checkposition != '') {
+              main.methods.togglecheck();
+              main.variables.checkposition = '';
+            }
+
+            $('#' + target.id).html(main.variables.pieces[selectedpiece.name].img);
+            $('#' + movebackup).html('');
+            main.variables.pieces[selectedpiece.name].moved = true;
+          }
         }
 
-        $('#' + target.id).html(main.variables.pieces[selectedpiece.name].img);
-        $('#' + movebackup).html('');
-        main.variables.pieces[selectedpiece.name].moved = true;
+      } else if (main.variables.turn == 'b') {
+
+        if (main.methods.check('w') == true) {
+          main.methods.message('Your king is in check!');
+
+          $('#' + target.id).attr('chess', target.name);
+          main.variables.pieces[selectedpiece].position = movebackup;
+          main.variables.pieces[target.name].captured = false;
+        } else if (main.methods.check('w') == false) {
+
+          if (main.methods.check('b') == true) {
+            main.variables.checkposition = main.variables.pieces.w_king.position;
+            main.methods.togglecheck();
+
+            $('#' + target.id).html(main.variables.pieces[selectedpiece.name].img);
+            $('#' + movebackup).html('');
+            main.variables.pieces[selectedpiece.name].moved = true;
+          } else {
+
+            if (main.variables.checkposition != '') {
+              main.methods.togglecheck();
+              main.variables.checkposition = '';
+            }
+
+            $('#' + target.id).html(main.variables.pieces[selectedpiece.name].img);
+            $('#' + movebackup).html('');
+            main.variables.pieces[selectedpiece.name].moved = true;
+          }
+        }
 
       }
 
 
       //new cell
-      
+
       $('#' + target.id).attr('chess', selectedpiece.name);
       //old cell
       $('#' + selectedpiece.id).html('');
@@ -889,6 +926,7 @@ $(document).ready(function () {
           $('#' + r_target).html(main.variables.pieces['w_rook2'].img);
           $('#' + r_target).attr('chess', 'w_rook2');
 
+          main.methods.endturn();
         } else if (t1 && t2 && t3 && t5) { // castle b_king
 
           let k_position = '5_8';
@@ -911,6 +949,7 @@ $(document).ready(function () {
           $('#' + r_target).html(main.variables.pieces['b_rook2'].img);
           $('#' + r_target).attr('chess', 'b_rook2');
 
+          main.methods.endturn();
         } else { // move selectedpiece
           if (main.variables.highlighted.indexOf(target.id) != -1) {
             main.methods.move(target);
