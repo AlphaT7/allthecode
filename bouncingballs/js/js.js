@@ -1,7 +1,7 @@
 Physics(function (world) {
 
     var viewWidth = window.innerWidth;
-    var viewHeight = window.innerHeight;
+    var viewHeight = window.innerHeight - 20;
     var tarray = [];
 
     var renderer = Physics.renderer('canvas', {
