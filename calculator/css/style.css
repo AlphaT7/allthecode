@@ -1,6 +1,5 @@
 html, body {
     width: 100%;
-    height: 100%;
     padding: 0;
     margin: 0;
 }
@@ -43,12 +42,12 @@ html, body {
 }
 
 #add {
-    grid-row: 2 / 4;
+    grid-row: 2 / 3;
     grid-column: 4 / -1;
 }
 
 #equals {
-    grid-row: 4 / -1;
+    grid-row: 5 / -1;
     grid-column: 4 / -1
 }
 
@@ -63,5 +62,24 @@ html, body {
 }
 
 #equals {
-    padding-top: 117px;
+    padding-top: 70px;
+}
+
+#clear {
+    grid-row: 3 / 5;
+    grid-column: 4 / -1;
+    padding-top: 70px;
+}
+
+#calc_str {
+    height: 25px;
+    text-align: right;
+    overflow: hidden;
+}
+
+#calculation {
+    font-size: 30pt;
+    text-align: right;
+    padding-right: 20px;
+    overflow: hidden;
 }
