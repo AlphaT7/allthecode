@@ -81,6 +81,7 @@ html, body {
     height: 25px;
     text-align: right;
     overflow: hidden;
+    padding: 3px 5px 0 0;
 }
 
 #calculation {
