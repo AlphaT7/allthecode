@@ -32,6 +32,12 @@ html, body {
     background: #555;
     color: #fff;
     cursor: pointer;
+    transition: .1s
+}
+
+.pressed {
+    background: #777 !important;
+    border-color: #888 !important;
 }
 
 #screen {
