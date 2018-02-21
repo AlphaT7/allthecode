@@ -13,6 +13,7 @@ router.get('/', function (req, res, next) {
 
     // Database Name
     const dbName = 'database';
+    const datafile = 'db.json';
 
     // Use connect method to connect to the server
     MongoClient.connect(url, function (err, client) {
@@ -21,19 +22,12 @@ router.get('/', function (req, res, next) {
 
         const db = client.db(dbName);
 
- 
-        //findDocuments(db, function (){});
-        /*
-        filterDocuments(db, function (){
-            client.close();
+        fs.readFile(datafile, 'utf8', function(err, data) {  
+            if (err) throw err;
+            insertDocuments(db, JSON.parse(data), function () {
+                client.close();
+            });
         });
-        */
-
-        getDocuments (db, function(docs){
-            res.json(docs);
-            res.end();
-            client.close();
-        })
 
     });
 
@@ -49,31 +43,6 @@ router.get('/', function (req, res, next) {
             callback(result);
         });
     }
-
-    const getDocuments = function (db, callback) {
-        // Get the documents collection
-        const collection = db.collection('collection');
-        // Find some documents
-        collection.find({}).toArray(function (err, docs) {
-            assert.equal(err, null);
-            console.log("Found the following records");
-            //console.log(docs)
-            callback(docs);
-        });
-    }
-
-    const filterDocuments = function (db, callback) {
-        // Get the documents collection
-        const collection = db.collection('collection');
-        // Find some documents
-        collection.find({ 'state': 'NY' }).toArray(function (err, docs) {
-            assert.equal(err, null);
-            console.log("Found the following records");
-            console.log(docs);
-            callback(docs);
-        });
-    }
-
 });
 
 module.exports = router;

@@ -7,11 +7,39 @@ block content
     div#header
       h1 With CSS-Grid and Tabulator
     div#menu
+      button#select-all Select All
+
+      button#deselect-all De-Select All
+
       button#add-row Add Row
 
-      button#del-row Del Row
+      button#del-row Del Row(s)
 
       button#clear Del All
+    div#contentoptions
+      h4 Filter Data
+      div#filter-table
+        select#filter-field
+          option Select a Field
+          option(value="_id") Id
+          option(value="fname") First Name
+          option(value="lname") Last Name
+          option(value="address") Address
+          option(value="city") City
+          option(value="state") State
+          option(value="zip") Zip
+        select#filter-type
+          option Select a Filter Type
+          option(value="=") =
+          option(value="<") <
+          option(value="<=") <=
+          option(value=">") >
+          option(value=">=") >=
+          option(value="!=") !=
+          option(value="like") like
+        input(type="text",placeholder="value to filter")#filter-value
+        button#filter-submit Submit
+        button#filter-clear Clear Filter
     div#content
       div#example-table
     div#footer

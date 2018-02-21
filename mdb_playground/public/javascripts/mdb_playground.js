@@ -1,4 +1,4 @@
-var selectedRow = [];
+var selectedRows = [];
 
 //Create Gender
 var genderEditor = function(cell, onRendered, success, cancel){
@@ -38,6 +38,7 @@ $("#example-table").tabulator({
     height:"100%",
     selectable:true, //make rows selectable
     layout:"fitColumns",
+    index:"_id",
     columns:[
         {title:"Id", field:"_id"},
 	    {title:"First Name", field:"fname", align: "left", sorter:"string", editor: "input"},
@@ -51,21 +52,12 @@ $("#example-table").tabulator({
     ],
     rowSelectionChanged:function(data, rows){
         //update selected row counter on selection change
-        $("#select-stats span").text(data.length);
-        console.log(data.length +' text');
-        //selectedRow.push(data[0].id);
-        //console.log(selectedRow);
+        //$("#select-stats span").text(data.length);
+        while (selectedRows.length) { selectedRows.pop(); }
+        data.forEach(element => {
+            selectedRows.push(element._id);
+        });
     },
-});
-
-//select row on "select" button click
-$("#select-row").click(function(){
-    $("#example-table").tabulator("selectRow", 1);
-});
-
-//deselect row on "deselect" button click
-$("#deselect-row").click(function(){
-    $("#example-table").tabulator("deselectRow", 1);
 });
 
 //select row on "select all" button click
@@ -85,7 +77,13 @@ $("#add-row").click(function(){
 
 //Delete row on "Delete Row" button click
 $("#del-row").click(function(){
-    $("#example-table").tabulator("deleteRow", 1);
+    selectedRows.map(element => {
+        $("#example-table").tabulator("deleteRow", element);
+        //selectedRows.splice(selectedRows.indexOf(element),1);
+    })
+    
+    $("#example-table").tabulator("deselectRow"); // <--- IMPORTANT!!! DO NOT REMOVE THIS LINE.
+    selectedRows.length = 0;
 });
 
 //Clear table on "Empty the table" button click
@@ -97,6 +95,38 @@ $("#clear").click(function(){
 $("#reset").click(function(){
     $("#example-table").tabulator("setData", tabledata);
 });
+
+//Trigger setFilter function with correct parameters
+function updateFilter(){
+
+    var filter = $("#filter-field").val() == "function" ? customFilter : $("#filter-field").val();
+
+    if($("#filter-field").val() == "function" ){
+        $("#filter-type").prop("disabled", true);
+        $("#filter-value").prop("disabled", true);
+    }else{
+        $("#filter-type").prop("disabled", false);
+        $("#filter-value").prop("disabled", false);
+    }
+
+    $("#example-table").tabulator("setFilter", filter, $("#filter-type").val(), $("#filter-value").val());
+}
+
+//Update filters on value change
+$("#filter-field, #filter-type").change(updateFilter);
+$("#filter-value").keyup(updateFilter);
+$('#filter-submit').click(updateFilter);
+
+
+//Clear filters on "Clear Filters" button click
+$("#filter-clear").click(function(){
+    $("#filter-field").val("");
+    $("#filter-type").val("=");
+    $("#filter-value").val("");
+
+    $("#example-table").tabulator("clearFilter");
+});
+
 
 //define some sample data
 var tabledata = [
@@ -110,7 +140,6 @@ var tabledata = [
 ];
 
 $.get( "request", function( data ) {
-    console.log(data)
     tabledata = data;
-    $("#example-table").tabulator("setData", tabledata);    
+    $("#example-table").tabulator("setData", tabledata);
 });
