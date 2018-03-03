@@ -25,8 +25,8 @@ var main = {
                     mv.calc_str = '0';
                 } else if (char == '='){
                     if (mv.calc_str.split(' ').length == 3){
-                        $('#calculation').html(mm.calculate());
-                        mv.calc_str = 0;
+                        mv.calc_str = mm.calculate();
+                        $('#calculation').html(mv.calc_str);
                     }
                 } else if (patt1.test(char) == true ){
                     if (mv.calc_str != '0'){
