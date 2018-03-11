@@ -8,43 +8,79 @@ const rolldice = () => {
   var dice = $("#dice").val();
   var sides = $("#sides").val();
   var roll = [];
-  var damage = 0;
+  var critical = $("#critical").val();
   var percent = {};
-  for (let i = dice; i <= sides * dice; i++) {
-    percent[i] = 0;
-  }
   var percentage = [];
   var bgcolor = function() {
     let bgcarray = [];
-    for (let i = dice; i <= sides * dice; i++) {
+    for (let i = dice; i <= max(roll); i++) {
       bgcarray.push("rgba(54, 162, 235, 0.2)");
     }
     return bgcarray;
   };
+
   bgbcolor = function() {
     let bgbarray = [];
-    for (let i = dice; i <= sides * dice; i++) {
+    for (let i = dice; i <= max(roll); i++) {
       bgbarray.push("rgba(54, 162, 235, 1)");
     }
     return bgbarray;
   };
+
   chartlabels = function() {
     let labels = [];
-    for (let i = dice; i <= sides * dice; i++) {
+    for (let i = dice; i <= max(roll); i++) {
       labels.push(i);
     }
     return labels;
   };
 
+  function max(arr) {
+    var max = arr.reduce(function(a, b) {
+      return Math.max(a, b);
+    });
+    return max;
+  }
+
+  function rollDice(N, S) {
+    let damage = 0;
+    for (let i = 0; i < N; i++) {
+      damage += random(S) + 1;
+    }
+    return damage;
+  }
+
+  function random(N) {
+    N = Number(N);
+    return Math.floor(N * Math.random());
+  }
+
+  /* Core of the probability function */
+  for (let i = 0; i < 1000; i++) {
+    let damage = rollDice(dice, sides);
+
+    if (random(100) < critical){
+      damage += rollDice(dice,sides);
+    }
+
+    roll.push(damage);
+  }
+  console.log(roll);
+
+  /*
   for (let i = 0; i < 1000; i++) {
     for (let d = 0; d < dice; d++) {
-      damage += 1 + getRandomInt(sides);
+      damage += 1 + random(sides);
     }
     roll.push(damage);
     damage = 0;
   }
-console.log(roll);
-  for (let j = dice; j <= sides * dice; j++) {
+  */
+  for (let i = dice; i <= max(roll); i++) {
+    percent[i] = 0;
+  }
+  
+  for (let j = dice; j <= max(roll); j++) {
     for (let i = 0; i <= roll.length + 1; i++) {
       if (roll[i] == j) {
         percent[j]++;
@@ -52,13 +88,8 @@ console.log(roll);
     }
   }
 
-  for (let i = dice; i <= sides * dice; i++) {
-    percentage.push(Math.round( (percent[i] * .1) * 100 + Number.EPSILON ) / 100);
-  }
-
-  function getRandomInt(sides) {
-    let N = Number(sides);
-    return Math.floor(N * Math.random());
+  for (let i = dice; i <= max(roll); i++) {
+    percentage.push(Math.round(percent[i] * 0.1 * 100 + Number.EPSILON) / 100);
   }
 
   var ctx = document.getElementById("myChart").getContext("2d");
@@ -69,7 +100,7 @@ console.log(roll);
   myChart = new Chart(ctx, {
     type: "bar",
     data: {
-      //labels: ["1", "2", "3", "4", "5", "6"],
+      //labels: ['1', '2', '3', '4', '5', '6'],
       labels: chartlabels(),
       datasets: [
         {
