@@ -18,3 +18,7 @@ html, body {
     border: 1px solid #000;
     text-align: center;
 }
+
+#container input[type='number']{
+    width: 150px;
+}

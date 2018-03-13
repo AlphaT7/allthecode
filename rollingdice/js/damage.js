@@ -1,14 +1,16 @@
 var myChart = null;
 
-$("#roll").click(function() {
+$("#container").submit(function(e) {
+  e.preventDefault();
   rolldice();
 });
 
 const rolldice = () => {
-  var dice = $("#dice").val();
-  var sides = $("#sides").val();
+  var dice = Number($("#dice").val());
+  var sides = Number($("#sides").val());
+  var damagemodification = Number($("#damage_modification").val());
   var roll = [];
-  var critical = $("#critical").val();
+  var critical = Number($("#critical").val());
   var percent = {};
   var percentage = [];
   var bgcolor = function() {
@@ -47,24 +49,24 @@ const rolldice = () => {
     for (let i = 0; i < N; i++) {
       damage += random(S) + 1;
     }
-    return damage;
+    return (damage + Math.floor(damage * damagemodification * .01));
   }
 
-  function random(N) {
-    N = Number(N);
-    return Math.floor(N * Math.random());
+  function random(S) {
+    return Math.floor(S * Math.random());
   }
 
   /* Core of the probability function */
   for (let i = 0; i < 1000; i++) {
     let damage = rollDice(dice, sides);
 
-    if (random(100) < critical){
-      damage += rollDice(dice,sides);
+    if (random(100) < critical) {
+      damage += rollDice(dice, sides);
     }
 
     roll.push(damage);
   }
+
   console.log(roll);
 
   /*
@@ -79,7 +81,7 @@ const rolldice = () => {
   for (let i = dice; i <= max(roll); i++) {
     percent[i] = 0;
   }
-  
+
   for (let j = dice; j <= max(roll); j++) {
     for (let i = 0; i <= roll.length + 1; i++) {
       if (roll[i] == j) {
