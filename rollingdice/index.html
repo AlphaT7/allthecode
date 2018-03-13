@@ -11,12 +11,14 @@
 </head>
 
 <body>
-  <div id="container">
-    <input id="dice" type="text" placeholder="number of dice to roll" value="1"/>
-    <input id="sides" type="text" placeholder="number of sides to the die"/>
-    <button id="roll">Roll</button>
+  <form id="container">
+    <input id="dice" type="number" placeholder="number of dice" min="1" max="10" required/>
+    <input id="sides" type="number" placeholder="sides per die" min="1" max="12" required/>
+    <input id="critical" type="number" placeholder="critical bonus" min="0" max="200" required/>
+    <input id="damage_modification" type="number" placeholder="damage modifier" min="-100" max="0" required/>
+    <input type="submit" id="roll" value="Roll"/>
     <canvas id="myChart" width="400" height="200"></canvas>
-  </div>
+  </form>
 
   <script src='js/jquery-3.3.1.min.js'></script>
   <script src='js/chartjs-2.7.2.min.js'></script>
