@@ -11,15 +11,57 @@
 </head>
 
 <body>
-  <form id="container">
-    <input id="dice" type="number" placeholder="number of dice" min="1" max="10" required/>
-    <input id="sides" type="number" placeholder="sides per die" min="1" max="12" required/>
-    <input id="critical" type="number" placeholder="critical bonus" min="0" max="200" required/>
-    <input id="damage_modification" type="number" placeholder="damage modifier" min="-100" max="0" required/>
-    <input type="submit" id="roll" value="Roll"/>
+  <div id="header">
+    <h2>
+      RPG Dice Simulation
+    </h2>
+  </div>
+  <form id="form">
+    <input id="dice" type="number" placeholder="number of dice" min="1" max="10" value="2" required/>
+    <input id="sides" type="number" placeholder="sides per die" min="1" max="12" value="6" required/>
+    <input id="critical" type="number" placeholder="critical bonus" min="0" max="200" value="0" required/>
+    <input id="armor_reduction" type="number" placeholder="damage modifier" min="0" max="100" value="0" required/>
+    <input type="submit" id="roll" value="Roll" />
+    <br>
     <canvas id="myChart" width="400" height="200"></canvas>
   </form>
+  <section id="container">
+    <p>
+      This is an RPG dice simulation chart that shows the probability of hitting a given dice combination within a 1000 rolls.  The chart utalizes
+      <a href="http://www.chartjs.org/">ChartJS</a> and
+      <a href="https://jquery.com/">jQuery</a>.
+    </p>
+    <p>
+      The core probability function is written in javascript and is loosly based on the pseudo code provided by
+      <a href="https://www.redblobgames.com/articles/probability/damage-rolls.html">RedBlobGames</a>.
+    </p>
+    <div id="code">
+      <code>
+        var dice = 'number of dice';<br>
+        var sides = 'sides per die'<br>
+        var critical = 'critical strike percentage'<br>
+        var armor_reduction = 'armor reduction percentage'<br>
+        <br>
+        function rollDice(N, S) {<br>
+        &nbsp;&nbsp;let damage = 0;<br>
+        &nbsp;&nbsp;for (let i = 0; i < N; i++) {<br></N>
+        &nbsp;&nbsp;&nbsp;&nbsp;damage += random(S) + 1;<br>
+        &nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;return (damage + Math.floor(damage * damagemodification * -.01));<br>
+        }<br><br>
+      
+        function random(S) {<br>
+          &nbsp;&nbsp;return Math.floor(S * Math.random());<br>
+        }<br><br>
 
+        let damage = rollDice(dice, sides);<br>
+        if (random(100) < critical) {<br>
+        &nbsp;&nbsp;damage += rollDice(dice, sides);<br>
+        }
+      </code>
+    </div>
+  </section>
+  <div class="spacer"></div>
   <script src='js/jquery-3.3.1.min.js'></script>
   <script src='js/chartjs-2.7.2.min.js'></script>
   <script src="js/main.js" async></script>

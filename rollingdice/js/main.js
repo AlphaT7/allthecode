@@ -1,6 +1,14 @@
 var myChart = null;
 
-$("#container").submit(function(e) {
+$('document').ready(function(){
+  rolldice();
+  $("#dice").val('');
+  $("#sides").val('');
+  $("#critical").val('');
+  $("#armor_reduction").val('');
+});
+
+$("#form").submit(function(e) {
   e.preventDefault();
   rolldice();
 });
@@ -8,7 +16,7 @@ $("#container").submit(function(e) {
 const rolldice = () => {
   var dice = Number($("#dice").val());
   var sides = Number($("#sides").val());
-  var damagemodification = Number($("#damage_modification").val());
+  var armor_reduction = Number($("#armor_reduction").val());
   var roll = [];
   var critical = Number($("#critical").val());
   var percent = {};
@@ -49,7 +57,7 @@ const rolldice = () => {
     for (let i = 0; i < N; i++) {
       damage += random(S) + 1;
     }
-    return (damage + Math.floor(damage * damagemodification * .01));
+    return (damage + Math.floor(damage * armor_reduction * -.01));
   }
 
   function random(S) {
