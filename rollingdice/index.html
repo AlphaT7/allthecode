@@ -12,9 +12,9 @@
 
 <body>
   <div id="header">
-    <h2>
-      RPG Dice Simulation
-    </h2>
+    <h1>
+      Javascript RPG Dice Simulation
+    </h1>
   </div>
   <form id="form">
     <input id="dice" type="number" placeholder="number of dice" min="1" max="10" value="2" required/>
@@ -27,7 +27,8 @@
   </form>
   <section id="container">
     <p>
-      This is an RPG dice simulation chart that shows the probability of hitting a given dice combination within a 1000 rolls.  The chart utalizes
+      This is an RPG dice simulation chart that shows the probability of hitting a given dice combination within a 1000 rolls.
+      The chart utalizes
       <a href="http://www.chartjs.org/">ChartJS</a> and
       <a href="https://jquery.com/">jQuery</a>.
     </p>
@@ -37,27 +38,28 @@
     </p>
     <div id="code">
       <code>
-        var dice = 'number of dice';<br>
-        var sides = 'sides per die'<br>
-        var critical = 'critical strike percentage'<br>
-        var armor_reduction = 'armor reduction percentage'<br>
-        <br>
-        function rollDice(N, S) {<br>
-        &nbsp;&nbsp;let damage = 0;<br>
-        &nbsp;&nbsp;for (let i = 0; i < N; i++) {<br></N>
-        &nbsp;&nbsp;&nbsp;&nbsp;damage += random(S) + 1;<br>
-        &nbsp;&nbsp;}<br>
-        &nbsp;&nbsp;return (damage + Math.floor(damage * damagemodification * -.01));<br>
-        }<br><br>
-      
-        function random(S) {<br>
-          &nbsp;&nbsp;return Math.floor(S * Math.random());<br>
+
+        function getDamage (D, S, C, AR) {<br><br>
+
+        &nbsp;&nbsp;function random(S) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());<br>
+        &nbsp;&nbsp;}<br><br>
+        &nbsp;&nbsp;function rollDice(D, S) {<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;let roll = 0;<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < D; i++) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roll += random(S) + 1;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+        &nbsp;&nbsp;return roll;<br><br>
+        &nbsp;&nbsp;}<br><br>
+        &nbsp;&nbsp;let damage = rollDice(D,S);<br><br>
+        &nbsp;&nbsp;if (random(100) < C) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);<br>
+        &nbsp;&nbsp;}<br><br>
+        &nbsp;&nbsp;return (damage + Math.floor(damage * AR * -.01));<br><br>
+        
         }<br><br>
 
-        let damage = rollDice(dice, sides);<br>
-        if (random(100) < critical) {<br>
-        &nbsp;&nbsp;damage += rollDice(dice, sides);<br>
-        }
+        let playerdamage = <br> getDamage(number-of-dice, sides-per-die, critical-strike, armor-reduction);<br>
       </code>
     </div>
   </section>

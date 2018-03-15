@@ -52,9 +52,9 @@ const rolldice = () => {
     return max;
   }
 
-  function rollDice(N, S) {
+  function rollDice(D, S) {
     let damage = 0;
-    for (let i = 0; i < N; i++) {
+    for (let i = 0; i < D; i++) {
       damage += random(S) + 1;
     }
     return (damage + Math.floor(damage * armor_reduction * -.01));
