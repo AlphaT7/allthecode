@@ -1,4 +1,5 @@
 var myChart = null;
+var first = true;
 
 $('document').ready(function(){
   rolldice();
@@ -23,7 +24,7 @@ const rolldice = () => {
   var percentage = [];
   var bgcolor = function() {
     let bgcarray = [];
-    for (let i = dice; i <= max(roll); i++) {
+    for (let i = 0; i <= max(roll); i++) {
       bgcarray.push("rgba(54, 162, 235, 0.2)");
     }
     return bgcarray;
@@ -31,7 +32,7 @@ const rolldice = () => {
 
   bgbcolor = function() {
     let bgbarray = [];
-    for (let i = dice; i <= max(roll); i++) {
+    for (let i = 0; i <= max(roll); i++) {
       bgbarray.push("rgba(54, 162, 235, 1)");
     }
     return bgbarray;
@@ -39,7 +40,7 @@ const rolldice = () => {
 
   chartlabels = function() {
     let labels = [];
-    for (let i = dice; i <= max(roll); i++) {
+    for (let i = 0; i <= max(roll); i++) {
       labels.push(i);
     }
     return labels;
@@ -53,23 +54,46 @@ const rolldice = () => {
   }
 
   function rollDice(D, S) {
-    let damage = 0;
+    let roll = 0;
     for (let i = 0; i < D; i++) {
-      damage += random(S) + 1;
+      roll += random(S) + 1;
     }
-    return (damage + Math.floor(damage * armor_reduction * -.01));
+    return roll;
   }
 
   function random(S) {
     return Math.floor(S * Math.random());
   }
 
-  /* Core of the probability function */
+  function flipCoin() {
+    if (random(100) > 50){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   for (let i = 0; i < 1000; i++) {
     let damage = rollDice(dice, sides);
 
     if (random(100) < critical) {
       damage += rollDice(dice, sides);
+    }
+//console.log(damage + ' -damage')
+//console.log(armor_reduction + ' -armor_reduction')
+/*    let ar = Math.ceil(damage * armor_reduction * -.01);
+    
+    if (first == true) {
+      console.log(damage)
+      console.log(ar)
+    } else {
+      first = false;
+    }
+*/    
+    if (random(100) < armor_reduction){
+      damage = (damage + (Math.floor(damage * armor_reduction * -.01)));
+    } else {
+      damage = (damage + (Math.ceil(damage * armor_reduction * -.01)));
     }
 
     roll.push(damage);
@@ -86,11 +110,11 @@ const rolldice = () => {
     damage = 0;
   }
   */
-  for (let i = dice; i <= max(roll); i++) {
+  for (let i = 0; i <= max(roll); i++) {
     percent[i] = 0;
   }
 
-  for (let j = dice; j <= max(roll); j++) {
+  for (let j = 0; j <= max(roll); j++) {
     for (let i = 0; i <= roll.length + 1; i++) {
       if (roll[i] == j) {
         percent[j]++;
@@ -98,7 +122,7 @@ const rolldice = () => {
     }
   }
 
-  for (let i = dice; i <= max(roll); i++) {
+  for (let i = 0; i <= max(roll); i++) {
     percentage.push(Math.round(percent[i] * 0.1 * 100 + Number.EPSILON) / 100);
   }
 
