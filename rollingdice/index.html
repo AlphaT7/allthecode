@@ -3,17 +3,30 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Dice Simulation</title>
+  <title>RPG Dice Simulation</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <meta name="description" content="RPG Dice Simulation in Javascript">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebApplication",
+      "name": "Javascript RPG Dice Simulation",
+      "applicationCategory": "Game",
+      "about": "A chart showing probability of a given outcome for RPG player/npc damage. Includes critical stikes and armor reduction.",
+      "author": "Jamison Winters",
+      "isBasedOn": "https://www.redblobgames.com/articles/probability/damage-rolls.html",
+      "url": "http://dice.surge.sh/",
+      "screenshot": "http://dice.surge.sh/img/screenshot.png",
+    }
+  </script>
 </head>
 
 <body>
   <div id="header">
     <h1>
-      Javascript RPG Dice Simulation
+      RPG Dice Simulation in Javascript
     </h1>
   </div>
   <form id="form">
@@ -39,7 +52,7 @@
     <div id="code">
       <code>
 
-        function getDamage (D, S, C, AR) {<br><br>
+        function getDamage (D, S, C, A) {<br><br>
 
         &nbsp;&nbsp;function random(S) {<br>
         &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());<br>
@@ -55,7 +68,7 @@
         &nbsp;&nbsp;if (random(100) < C) {<br>
         &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);<br>
         &nbsp;&nbsp;}<br><br>
-        &nbsp;&nbsp;return (damage + Math.floor(damage * AR * -.01));<br><br>
+        &nbsp;&nbsp;return (damage + Math.ceil(damage * A * -.01));<br><br>
         
         }<br><br>
 

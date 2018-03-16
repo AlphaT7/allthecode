@@ -79,37 +79,11 @@ const rolldice = () => {
     if (random(100) < critical) {
       damage += rollDice(dice, sides);
     }
-//console.log(damage + ' -damage')
-//console.log(armor_reduction + ' -armor_reduction')
-/*    let ar = Math.ceil(damage * armor_reduction * -.01);
     
-    if (first == true) {
-      console.log(damage)
-      console.log(ar)
-    } else {
-      first = false;
-    }
-*/    
-    if (random(100) < armor_reduction){
-      damage = (damage + (Math.floor(damage * armor_reduction * -.01)));
-    } else {
-      damage = (damage + (Math.ceil(damage * armor_reduction * -.01)));
-    }
-
+    damage = (damage + (Math.ceil(damage * armor_reduction * -.01)));
     roll.push(damage);
   }
 
-  console.log(roll);
-
-  /*
-  for (let i = 0; i < 1000; i++) {
-    for (let d = 0; d < dice; d++) {
-      damage += 1 + random(sides);
-    }
-    roll.push(damage);
-    damage = 0;
-  }
-  */
   for (let i = 0; i <= max(roll); i++) {
     percent[i] = 0;
   }
