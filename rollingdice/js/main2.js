@@ -53,33 +53,31 @@ const getDamage = () => {
     return max;
   }
 
-  const thisDamage = function (dice,sides,critical,recuction){
+  const thisDamage = function(dice, sides, critical, reduction) {
     this.damage = 0;
+
+    this.rollDice = function() {
+      let roll = 0;
+      for (let i = 0; i < dice; i++) {
+        roll += this.random(sides) + 1;
+      }
+      this.damage = roll;
+      return this;
+    };
+    this.random = function(S) {
+      return Math.floor(S * Math.random());
+    };
+    this.critical = function() {
+      if (this.random(100) < critical) {
+        this.damage += this.rollDice(dice, sides).damage;
+      }
+      return this;
+    };
+    this.reduction = function() {
+      this.damage = this.damage + Math.ceil(this.damage * reduction * -0.01);
+      return this;
+    };
   };
-  thisDamage.prototype.rollDice = function() {
-    let roll = 0;
-    for (let i = 0; i < dice; i++) {
-      roll += this.random(sides) + 1;
-    }
-    this.damage = roll;
-    return this;
-  };
-  thisDamage.prototype.random = function(S) {
-    return Math.floor(S * Math.random());
-  };
-  thisDamage.prototype.critical = function() {
-    if (this.random(100) < critical) {
-      this.damage += this.rollDice(dice, sides).damage;
-    }
-    return this;
-  };
-  thisDamage.prototype.reduction = function() {
-    this.damage = this.damage + Math.ceil(this.damage * reduction * -0.01);
-    return this;
-  };
-  
-  
-  
 
   /*
   function flipCoin() {
@@ -91,8 +89,12 @@ const getDamage = () => {
   }
 */
   for (let i = 0; i < 1000; i++) {
-    let d = new thisDamage(dice,sides,critical,reduction);
-    let damage = d.rollDice().critical().reduction().damage;
+    //let d = new thisDamage(dice, sides, critical, reduction);
+    let damage = new thisDamage(dice, sides, critical, reduction)
+      .rollDice()
+      .critical()
+      .reduction()
+      .damage;
     roll.push(damage);
   }
   console.log(roll);
