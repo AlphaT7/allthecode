@@ -58,62 +58,62 @@
       <pre>
       <code class="language-js">
 
-          const getDamage = function(dice, sides, critical, reduction) {
-          &nbsp;&nbsp;const thisDamage = function(dice, sides, critical, reduction) {
-          &nbsp;&nbsp;&nbsp;&nbsp;this.damage = 0;
-        
-          &nbsp;&nbsp;&nbsp;&nbsp;this.rollDice = function() {
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < dice; i++) {
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage += this.random(sides) + 1;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;
-          &nbsp;&nbsp;&nbsp;&nbsp;};
+    const getDamage = function(dice, sides, critical, reduction) {
+    &nbsp;&nbsp;const thisDamage = function(dice, sides, critical, reduction) {
+    &nbsp;&nbsp;&nbsp;&nbsp;this.damage = 0;
   
-          &nbsp;&nbsp;&nbsp;&nbsp;this.random = function(S) {
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());
-          &nbsp;&nbsp;&nbsp;&nbsp;};
-              
-          &nbsp;&nbsp;&nbsp;&nbsp;this.critical = function() {
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.random(100) < critical) {
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage += this.rollDice(dice, sides).damage;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;
-          &nbsp;&nbsp;&nbsp;&nbsp;};
-  
-          &nbsp;&nbsp;&nbsp;&nbsp;this.reduction = function() {
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage = this.damage + Math.ceil(this.damage * reduction * -0.01);
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;
-          &nbsp;&nbsp;&nbsp;&nbsp;};
-          &nbsp;&nbsp;};
-  
-          &nbsp;&nbsp;return new thisDamage(dice, sides, critical, reduction)
-          &nbsp;&nbsp;&nbsp;.rollDice()
-          &nbsp;&nbsp;&nbsp;.critical()
-          &nbsp;&nbsp;&nbsp;.reduction()
-          &nbsp;&nbsp;&nbsp;.damage;
-          };
-<!--
-        function getDamage (D, S, C, A) {<br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;this.rollDice = function() {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < dice; i++) {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage += this.random(sides) + 1;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;
+    &nbsp;&nbsp;&nbsp;&nbsp;};
 
-        &nbsp;&nbsp;function random(S) {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());<br>
-        &nbsp;&nbsp;}<br><br>
-        &nbsp;&nbsp;function rollDice(D, S) {<br><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;let roll = 0;<br><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < D; i++) {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roll += random(S) + 1;<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;return roll;<br><br>
-        &nbsp;&nbsp;}<br><br>
-        &nbsp;&nbsp;let damage = rollDice(D,S);<br><br>
-        &nbsp;&nbsp;if (random(100) < C) {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);<br>
-        &nbsp;&nbsp;}<br><br>
-        &nbsp;&nbsp;return (damage + Math.ceil(damage * A * -.01));<br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;this.random = function(S) {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());
+    &nbsp;&nbsp;&nbsp;&nbsp;};
         
-        }<br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;this.critical = function() {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.random(100) < critical) {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage += this.rollDice(dice, sides).damage;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;
+    &nbsp;&nbsp;&nbsp;&nbsp;};
+
+    &nbsp;&nbsp;&nbsp;&nbsp;this.reduction = function() {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage = this.damage + Math.ceil(this.damage * reduction * -0.01);
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;
+    &nbsp;&nbsp;&nbsp;&nbsp;};
+    &nbsp;&nbsp;};
+
+    &nbsp;&nbsp;return new thisDamage(dice, sides, critical, reduction)
+    &nbsp;&nbsp;&nbsp;.rollDice()
+    &nbsp;&nbsp;&nbsp;.critical()
+    &nbsp;&nbsp;&nbsp;.reduction()
+    &nbsp;&nbsp;&nbsp;.damage;
+    };
+<!--
+  function getDamage (D, S, C, A) {<br><br>
+
+  &nbsp;&nbsp;function random(S) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());<br>
+  &nbsp;&nbsp;}<br><br>
+  &nbsp;&nbsp;function rollDice(D, S) {<br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;let roll = 0;<br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < D; i++) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roll += random(S) + 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;return roll;<br><br>
+  &nbsp;&nbsp;}<br><br>
+  &nbsp;&nbsp;let damage = rollDice(D,S);<br><br>
+  &nbsp;&nbsp;if (random(100) < C) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);<br>
+  &nbsp;&nbsp;}<br><br>
+  &nbsp;&nbsp;return (damage + Math.ceil(damage * A * -.01));<br><br>
+  
+  }<br><br>
 -->
-        let playerdamage = <br> getDamage(number-of-dice, sides-per-die, critical-strike, armor-reduction);<br>
+    let playerdamage = <br> &nbsp;&nbsp;&nbsp;getDamage(number-of-dice, sides-per-die, critical-strike, armor-reduction);<br>
       </code>
     </pre>
     </div>
