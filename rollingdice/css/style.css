@@ -12,11 +12,11 @@ html, body {
 }
 
 a:link {
-    color: #4679A3;
+    color: #4679A3 !important;
 }
 
 a:visited {
-    color: rgb(108, 67, 161);
+    color: rgb(108, 67, 161) !important;
 }
 
 #header {
