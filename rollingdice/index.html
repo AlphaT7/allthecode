@@ -46,12 +46,12 @@
   <section id="container">
     <p>
       This is an RPG dice simulation chart that shows the probability of hitting a given dice combination within a 1000 rolls.
-      The chart utalizes
+      The chart utilizes
       <a target="_blank" href="http://www.chartjs.org/">ChartJS</a> and
       <a target="_blank" href="https://jquery.com/">jQuery</a>.
     </p>
     <p>
-      The core probability function is written in javascript and is loosly based on the pseudo code provided by
+      The core probability function is written in javascript and is loosely based on the pseudo code provided by
       <a target="_blank" href="https://www.redblobgames.com/articles/probability/damage-rolls.html">RedBlobGames</a>.
     </p>
     <div id="code">
@@ -92,30 +92,37 @@
     &nbsp;&nbsp;&nbsp;.reduction()
     &nbsp;&nbsp;&nbsp;.damage;
     };
-<!--
-  function getDamage (D, S, C, A) {<br><br>
 
-  &nbsp;&nbsp;function random(S) {<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());<br>
-  &nbsp;&nbsp;}<br><br>
-  &nbsp;&nbsp;function rollDice(D, S) {<br><br>
-  &nbsp;&nbsp;&nbsp;&nbsp;let roll = 0;<br><br>
-  &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < D; i++) {<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roll += random(S) + 1;<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
-  &nbsp;&nbsp;&nbsp;&nbsp;return roll;<br><br>
-  &nbsp;&nbsp;}<br><br>
-  &nbsp;&nbsp;let damage = rollDice(D,S);<br><br>
-  &nbsp;&nbsp;if (random(100) < C) {<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);<br>
-  &nbsp;&nbsp;}<br><br>
-  &nbsp;&nbsp;return (damage + Math.ceil(damage * A * -.01));<br><br>
-  
-  }<br><br>
--->
-    let playerdamage = <br> &nbsp;&nbsp;&nbsp;getDamage(number-of-dice, sides-per-die, critical-strike, armor-reduction);<br>
+    let playerdamage = <br> &nbsp;&nbsp;&nbsp;getDamage('number-of-dice', 'sides-per-die', 'critical-strike', 'armor-reduction');<br>
       </code>
     </pre>
+    <p>
+      <h2>A more condensed version:</h2>
+    </p>
+    <pre>
+      <code>
+    function getDamage (D, S, C, R) {<br>
+    &nbsp;&nbsp;function random(S) {
+    &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());
+    &nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;function rollDice(D, S) {
+    &nbsp;&nbsp;&nbsp;&nbsp;let roll = 0;
+    &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < D; i++) {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roll += random(S) + 1;
+    &nbsp;&nbsp;&nbsp;&nbsp;}
+    &nbsp;&nbsp;&nbsp;&nbsp;return roll;
+    &nbsp;&nbsp;}<br><br>
+    &nbsp;&nbsp;let damage = rollDice(D,S);<br>
+    &nbsp;&nbsp;if (random(100) < C) {
+    &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);
+    &nbsp;&nbsp;}
+    &nbsp;&nbsp;return (damage + Math.ceil(damage * R * -.01));<br>
+    }<br>
+    let playerdamage = <br> &nbsp;&nbsp;&nbsp;getDamage('number-of-dice', 'sides-per-die', 'critical-strike', 'armor-reduction');<br>
+      </code>
+    </pre>
+    <p data-height="435" data-theme-id="0" data-slug-hash="VQOPoW" data-default-tab="result" data-user="AlphaT7" data-embed-version="2" data-pen-title="Dice Simulation" class="codepen">See the Pen <a href="https://codepen.io/AlphaT7/pen/VQOPoW/">Dice Simulation</a> by Jamison (<a href="https://codepen.io/AlphaT7">@AlphaT7</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
     </div>
   </section>
   <div class="footer"></div>
