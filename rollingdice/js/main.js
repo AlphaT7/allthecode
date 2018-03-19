@@ -84,7 +84,7 @@ const createDamageChart = () => {
     let damage = getDamage(dice, sides, critical, reduction);
     roll.push(damage);
   }
-  console.log(roll);
+  //console.log(roll);
 
   for (let i = 0; i <= max(roll); i++) {
     percent[i] = 0;

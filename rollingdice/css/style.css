@@ -11,15 +11,24 @@ html, body {
     padding: 0;
 }
 
+a:link {
+    color: #4679A3;
+}
+
+a:visited {
+    color: rgb(108, 67, 161);
+}
+
 #header {
     width: 100%;
     height: 40px;
-    background: rgb(62, 108, 207);
+    background: #4679A3;
     padding: 0 0 0 25px;
     color: #fff;
 }
 
 #form {
+    box-sizing: border-box;
     max-width: 700px;
     width: 100%;
     height: 400px;
@@ -40,13 +49,12 @@ html, body {
     margin: 0 auto;
 }
 
-#code {
-    background: #999;
-    border-radius: 5px;
-    padding: 20px;
+pre {
+    width: 100%;
 }
 
-.spacer{
+.footer{
+    background: #4679A3;
     width: 100%;
     height: 200px;
 }
