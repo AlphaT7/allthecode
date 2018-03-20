@@ -60,9 +60,9 @@
 
     const getDamage = function(dice, sides, critical, reduction) {
     &nbsp;&nbsp;const thisDamage = function(dice, sides, critical, reduction) {
-    &nbsp;&nbsp;&nbsp;&nbsp;this.damage = 0;
   
     &nbsp;&nbsp;&nbsp;&nbsp;this.rollDice = function() {
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage = 0;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < dice; i++) {
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage += this.random(sides) + 1;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
@@ -75,7 +75,7 @@
         
     &nbsp;&nbsp;&nbsp;&nbsp;this.critical = function() {
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.random(100) < critical) {
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage += this.rollDice(dice, sides).damage;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.damage += this.rollDice().damage;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this;
     &nbsp;&nbsp;&nbsp;&nbsp;};
@@ -101,27 +101,27 @@
     </p>
     <pre>
       <code>
-    function getDamage (D, S, C, R) {<br>
-    &nbsp;&nbsp;function random(S) {
-    &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());
-    &nbsp;&nbsp;}<br>
-    &nbsp;&nbsp;function rollDice(D, S) {
-    &nbsp;&nbsp;&nbsp;&nbsp;let roll = 0;
-    &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < D; i++) {
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roll += random(S) + 1;
-    &nbsp;&nbsp;&nbsp;&nbsp;}
-    &nbsp;&nbsp;&nbsp;&nbsp;return roll;
-    &nbsp;&nbsp;}<br><br>
-    &nbsp;&nbsp;let damage = rollDice(D,S);<br>
-    &nbsp;&nbsp;if (random(100) < C) {
-    &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);
-    &nbsp;&nbsp;}
-    &nbsp;&nbsp;return (damage + Math.ceil(damage * R * -.01));<br>
-    }<br>
-    let playerdamage = <br> &nbsp;&nbsp;&nbsp;getDamage('number-of-dice', 'sides-per-die', 'critical-strike', 'armor-reduction');<br>
+  function getDamage (D, S, C, R) {<br>
+  &nbsp;&nbsp;function random(S) {
+  &nbsp;&nbsp;&nbsp;&nbsp;return Math.floor(S * Math.random());
+  &nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;function rollDice(D, S) {
+  &nbsp;&nbsp;&nbsp;&nbsp;let roll = 0;
+  &nbsp;&nbsp;&nbsp;&nbsp;for (let i = 0; i < D; i++) {
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;roll += random(S) + 1;
+  &nbsp;&nbsp;&nbsp;&nbsp;}
+  &nbsp;&nbsp;&nbsp;&nbsp;return roll;
+  &nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;let damage = rollDice(D,S);<br>
+  &nbsp;&nbsp;if (random(100) < C) {
+  &nbsp;&nbsp;&nbsp;&nbsp;damage += rollDice(D,S);
+  &nbsp;&nbsp;}
+  &nbsp;&nbsp;return (damage + Math.ceil(damage * R * -.01));<br>
+  }<br>
+  let playerdamage = <br>&nbsp;&nbsp;getDamage('number-of-dice', 'sides-per-die', 'critical-strike', 'armor-reduction');<br>
       </code>
     </pre>
-    <p data-height="435" data-theme-id="0" data-slug-hash="VQOPoW" data-default-tab="result" data-user="AlphaT7" data-embed-version="2" data-pen-title="Dice Simulation" class="codepen">See the Pen <a href="https://codepen.io/AlphaT7/pen/VQOPoW/">Dice Simulation</a> by Jamison (<a href="https://codepen.io/AlphaT7">@AlphaT7</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <p data-height="465" data-theme-id="0" data-slug-hash="VQOPoW" data-default-tab="result" data-user="AlphaT7" data-embed-version="2" data-pen-title="RPG Dice Simulation in Javascript" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/AlphaT7/pen/VQOPoW/">RPG Dice Simulation in Javascript</a> by Jamison (<a href="https://codepen.io/AlphaT7">@AlphaT7</a>) on <a href="https://codepen.io">CodePen</a>.</p>
     <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
     </div>
   </section>

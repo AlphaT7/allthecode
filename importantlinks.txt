@@ -2,3 +2,4 @@ https://www.mockaroo.com/ -- Generates mock data for database testing in any dat
 https://www.redblobgames.com/ -- must have tutorials on different 2d grid/strategy based games
 https://codemirror.net/ -- embeded code editor
 https://highlightjs.org/ -- code highlighter
+http://youmightnotneedjquery.com/ -- vanilla js jquery alternatives

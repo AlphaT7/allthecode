@@ -55,9 +55,9 @@ const createDamageChart = () => {
 
   const getDamage = function(dice, sides, critical, reduction) {
     const thisDamage = function(dice, sides, critical, reduction) {
-      this.damage = 0;
-
+      
       this.rollDice = function() {
+        this.damage = 0;
         for (let i = 0; i < dice; i++) {
           this.damage += this.random(sides) + 1;
         }
@@ -68,7 +68,7 @@ const createDamageChart = () => {
       };
       this.critical = function() {
         if (this.random(100) < critical) {
-          this.damage += this.rollDice(dice, sides).damage;
+          this.damage += this.rollDice().damage;
         }
         return this;
       };

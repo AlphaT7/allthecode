@@ -1,0 +1,1 @@
+var $ = (q) => {return document.querySelector(q);}
