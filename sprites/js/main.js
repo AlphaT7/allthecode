@@ -8,40 +8,39 @@ knightImage.onload = () => {
   downMidPos.render();
 };
 
-const gameloop = (dir) => {
-    
-    switch (dir){
-        case 'left':
-            downLeftPos.render();
-            dir = 'mid';
-            break;
-        case 'mid':
+const gameloop = () => {
+  if (downflag) {
+    switch (dir) {
+      case "left":
+        if (tickCount == ticksPerFrame) {
+          downLeftPos.render();
+          dir = "right";
+        }
+        downLeftPos.update();
+        break;
+      case "right":
+        if (tickCount == ticksPerFrame) {
+          downRightPos.render();
+          dir = "left";
+        }
+        downRightPos.update();
+        break;
+    }
 
-            break;
-    }
-    
-    if(dir == 'left') {
-      downLeftPos.render();
-      dir = 'mid';
-    }
-    window.requestAnimationFrame(gameloop);
+  } else {
+    downMidPos.render();
+  }
+  window.requestAnimationFrame(gameloop);
 };
 
 const sprite = options => {
-  let that = {},
-    rameIndex = 0,
-    tickCount = 0;/*,
-    ticksPerFrame = 0,
-    numberOfFrames = options.numberOfFrames || 1;*/
+  let that = {};
 
   that.update = () => {
     tickCount += 1;
 
-    if (tickCount >= ticksPerFrame) {
+    if (tickCount > ticksPerFrame) {
       tickCount = 0;
-
-      // Go to the next frame
-      frameIndex += 1;
     }
   };
 
@@ -77,7 +76,7 @@ const sprite = options => {
   return that;
 };
 
-var flag = false;
+var downflag = false;
 var tickCount = 0;
 var ticksPerFrame = 10;
 var dir;
@@ -132,8 +131,8 @@ $("body").addEventListener("keydown", function(e) {
       console.log("up");
       break;
     case 40:
-      flag = true;
-      gameloop('down');
+      downflag = true;
+      dir = 'left';
       break;
     case 37:
       console.log("left");
@@ -153,7 +152,7 @@ $("body").addEventListener("keyup", function(e) {
       console.log("up");
       break;
     case 40:
-      flag = false;
+      downflag = false;
       break;
     case 37:
       console.log("left");
@@ -166,3 +165,5 @@ $("body").addEventListener("keyup", function(e) {
       break;
   }
 });
+
+gameloop();
