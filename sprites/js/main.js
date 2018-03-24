@@ -10,26 +10,31 @@ knightImage.onload = () => {
 
 const gameloop = () => {
   if (downflag) {
-    switch (dir) {
-      case "left":
-        if (tickCount == ticksPerFrame) {
+    //console.log(dir);
+    if (tickCount == ticksPerFrame) {
+      switch (dir) {
+        case "left":
+          //if (tickCount == ticksPerFrame) {
           downLeftPos.render();
           dir = "right";
-        }
-        downLeftPos.update();
-        break;
-      case "right":
-        if (tickCount == ticksPerFrame) {
+          //}
+          //downLeftPos.update();
+          //console.log(tickCount)
+          break;
+        case "right":
+          //if (tickCount == ticksPerFrame) {
           downRightPos.render();
           dir = "left";
-        }
-        downRightPos.update();
-        break;
+          //}
+          //downRightPos.update();
+          //console.log(tickCount)
+          break;
+      }
     }
-
   } else {
     downMidPos.render();
   }
+  downMidPos.update();
   window.requestAnimationFrame(gameloop);
 };
 
@@ -80,7 +85,6 @@ var downflag = false;
 var tickCount = 0;
 var ticksPerFrame = 10;
 var dir;
-var prevDir;
 
 var canvas = $("#knightAnimation");
 canvas.width = 80;
@@ -132,7 +136,7 @@ $("body").addEventListener("keydown", function(e) {
       break;
     case 40:
       downflag = true;
-      dir = 'left';
+      dir = "left";
       break;
     case 37:
       console.log("left");
