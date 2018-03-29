@@ -83,7 +83,7 @@ canvas.addEventListener("mousemove", e => {
       let b = center.y - m * center.x;
 
       if (hex.y == Math.round(m * hex.x + b)) {
-        hex.c = "#b1b3ff";
+        hex.c = "blue";
         return hex;
       }
     });
@@ -110,6 +110,8 @@ canvas.addEventListener("mousemove", e => {
     );
 
     newGrid.highlight(highlighted);
+    center.c = "orange";
+    newGrid.highlight([center]);
   }
 });
 
