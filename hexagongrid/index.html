@@ -11,9 +11,19 @@
 </head>
 
 <body>
+  <header id="header">Javascript Hexagon Grid Example</header>
   <section id="container">
+    <h2>About</h2>
+    <p>
+      This hex grid is loosely based on
+      <a href="https://www.redblobgames.com/grids/hexagons/" target="_blank">RedBlobGames</a>. The grid is first formed by creating an array of center point coordinates for each hex and then drawn.
+      The mouse over effect is calculated by first detecting the hex the mouse is hovering over, finding the nearest hex
+      point to find the slope of the line, and then checking each coordinate in the grid against that equation. If it matches,
+      it is colored based on which slope it uses.
+    </p>
     <canvas id="hexgrid"></canvas>
   </section>
+  <footer></footer>
 
   <script src="js/main.js" async></script>
 

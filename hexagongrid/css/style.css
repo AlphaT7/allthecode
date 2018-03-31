@@ -7,13 +7,41 @@ body {
 }
 
 * div,
+* h1,
 * section {
+  margin: 0;
   box-sizing: border-box;
 }
 
 canvas {
   display: block;
-  width: 1000px;
+  width: 820px;
   height: 600px;
   margin: 0 auto;
+  /*border: 1px solid #c6cdca;*/
+}
+
+#container {
+  width: 820px;
+  margin: 0 auto;
+  /*border: 1px solid #c6cdca;*/
+}
+
+#container p {
+  padding: 20px;
+}
+
+#header {
+  height: 50px;
+  width: 100%;
+  font-size: 34pt;
+  background: #4679a3;
+  color: #fff;
+  padding: 0 0 5px 20px;
+}
+
+footer {
+  height: 50px;
+  background: #4679a3;
+  width: 100%;
 }
