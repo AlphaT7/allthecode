@@ -1,8 +1,11 @@
-const hexGrid = function(canvasWidth, canvasHeight, hexSize) {
-  this.canvas = document.getElementById("hexgrid");
+const hexGrid = function(canvasName, canvasWidth, canvasHeight, hexSize) {
+  this.canvas = document.getElementById(canvasName);
   this.ctx = this.canvas.getContext("2d");
 
-  this.canvas.width = canvasWidth;
+  this.canvas.width =
+    canvasWidth <= document.body.offsetWidth
+      ? canvasWidth
+      : document.body.offsetWidth - 20;
   this.canvas.height = canvasHeight;
   this.canvas.addEventListener("mousemove", e => {
     this.mouseOverEvent(e);
@@ -147,20 +150,20 @@ const hexGrid = function(canvasWidth, canvasHeight, hexSize) {
   };
 
   this.setCoordinates = () => {
+    //this.hexSize * 0.85 / this.hexSize * 2.5;
     let start = { x: this.hexSize, y: this.hexSize };
-    // start.x = gridstart.x == undefined ? this.hexSize : gridstart.x;
-    //start.y = gridstart.y == undefined ? this.hexSize : gridstart.y;
 
     let origin = {
       x: start.x,
       y: start.y
     };
 
-    let sizeMultiplier = 10;
-    for (let j = 0; j < 24; j++) {
+    let widthMuliplier = 10;
+    let heightMultiplier = 24;
+    for (let j = 0; j < heightMultiplier; j++) {
       for (
         let i = start.x;
-        i < this.hexSize * sizeMultiplier;
+        i < this.hexSize * widthMuliplier;
         i += this.hexSize
       ) {
         this.hexArr.push({ x: start.x, y: start.y, c: "#F4F4F1" });
@@ -182,4 +185,4 @@ const c = d => {
   console.log(d);
 };
 
-const newGrid = new hexGrid(520, 430, 20).setCoordinates().draw();
+const newGrid = new hexGrid("hexgrid", 520, 430, 20).setCoordinates().draw();

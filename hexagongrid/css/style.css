@@ -4,33 +4,47 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 * div,
+* p,
 * h1,
 * section {
   margin: 0;
   box-sizing: border-box;
 }
 
+*h1,
+*h2 {
+  margin: 0;
+  text-align: center;
+}
+
 canvas {
+  box-sizing: border-box;
   display: block;
   margin: 0 auto;
-  /*border: 1px solid #c6cdca;*/
+  border: 1px solid #c6cdca;
 }
 
 #container {
-  width: 820px;
+  display: block;
+  max-width: 820px;
+  width: 100%;
   margin: 0 auto;
-  /*border: 1px solid #c6cdca;*/
+  border: 1px solid #c6cdca;
 }
 
 #container p {
-  padding: 20px;
+  padding: 10px;
+}
+
+#container h2 {
+  padding: 0 0 0 10px;
 }
 
 #header {
-  height: 50px;
   width: 100%;
   font-size: 34pt;
   background: #4679a3;
