@@ -186,3 +186,10 @@ const c = d => {
 };
 
 const newGrid = new hexGrid("hexgrid", 520, 430, 20).setCoordinates().draw();
+
+/*
+width = widthMultiplier * hexSize * 2 * .75 + hexSize * 2
+
+340 = (10 * 20 *2 * .75) + (20 * 2)
+340 = (n * hxs * 2 * .75) + (hxs * 2)
+*/
