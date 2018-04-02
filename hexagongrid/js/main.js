@@ -158,7 +158,10 @@ const hexGrid = function(canvasName, canvasWidth, canvasHeight, hexSize) {
       y: start.y
     };
 
-    let widthMuliplier = 10;
+    //let widthMuliplier = 10;
+    let widthMuliplier = 11;
+    // (this.canvas.width - this.hexSize * 2) / (this.hexSize * 1.5);
+    c(this.hexSize);
     let heightMultiplier = 24;
     for (let j = 0; j < heightMultiplier; j++) {
       for (
@@ -185,7 +188,7 @@ const c = d => {
   console.log(d);
 };
 
-const newGrid = new hexGrid("hexgrid", 520, 430, 20).setCoordinates().draw();
+const newGrid = new hexGrid("hexgrid", 550, 430, 30).setCoordinates().draw();
 
 /*
 width = widthMultiplier * hexSize * 2 * .75 + hexSize * 2

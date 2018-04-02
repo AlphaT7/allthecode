@@ -32,7 +32,7 @@ canvas {
   max-width: 820px;
   width: 100%;
   margin: 0 auto;
-  border: 1px solid #c6cdca;
+  /*border: 1px solid #c6cdca;*/
 }
 
 #container p {

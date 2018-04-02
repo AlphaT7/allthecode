@@ -1,0 +1,14 @@
+
+
+
+canvaswidth = widthMultiplier * hexSize * 2 * .75 + hexSize * 2
+
+340 = (10 * 20 *2 * .75) + (20 * 2)
+340 = (n * 30 * 2 * .75) + (30 * 2)
+
+canvaswidth - 2 * hexSize= n * hexSize * 1.5
+n = (canvaswidth - (2 * hexSize)) / hexSize * 1.5
+n = 340-40 / 40 *1.5
+
+
+
