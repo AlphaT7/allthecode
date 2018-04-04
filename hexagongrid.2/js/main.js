@@ -174,9 +174,9 @@ const hexGrid = function(canvasName, canvasWidth, canvasHeight, hexSize) {
       }
       start.y += Math.floor(Math.sqrt(3) / 2 * this.hexSize);
     }
-    c(this.hexSize * widthMuliplier * 2 * 0.75);
     return this;
   };
+
   return this;
 };
 
