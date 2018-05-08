@@ -1,13 +1,17 @@
-importScripts("socket.io.js");
+importScripts("/socket.io/socket.io.js");
 
-//var socket = io("http://38.98.xxx.xxx:6000");
 var socket = io();
 
-var connections = 0;
+socket.emit("message", "I'm a test!");
 
-onmessage = function(e) {
-  postMessage(e.data);
-};
+socket.on("message", function(msg) {
+  console.log(msg);
+});
+
+/*
+var socket = io("http://38.98.xxx.xxx:6000");
+
+var connections = 0;
 
 self.addEventListener(
   "connect",
@@ -39,3 +43,4 @@ self.addEventListener(
   },
   false
 );
+*/

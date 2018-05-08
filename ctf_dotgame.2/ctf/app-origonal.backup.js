@@ -1,33 +1,3 @@
-// https://gist.github.com/crtr0/2896891 --> Socket.IO Rooms Example
-// io.emit --> broadcast to everyone
-// socket.emit --> broadcast to just the sender
-
-/*
-// sending to sender-client only
-socket.emit('message', "this is a test");
-
-// sending to all clients, include sender
-io.emit('message', "this is a test");
-
-// sending to all clients except sender
-socket.broadcast.emit('message', "this is a test");
-
-// sending to all clients in 'game' room(channel) except sender
-socket.broadcast.to('game').emit('message', 'nice game');
-
-// sending to all clients in 'game' room(channel), include sender
-io.in('game').emit('message', 'cool game');
-
-// sending to sender client, only if they are in 'game' room(channel)
-socket.to('game').emit('message', 'enjoy the game');
-
-// sending to all clients in namespace 'myNamespace', include sender
-io.of('myNamespace').emit('message', 'gg');
-
-// sending to individual socketid
-socket.broadcast.to(socketid).emit('message', 'for your eyes only');
-*/
-
 var createError = require("http-errors");
 var express = require("express");
 var app = express();
@@ -35,6 +5,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var http = require("http").Server(app);
+var io = require("socket.io")(http);
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -70,3 +41,7 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+io.on("connection", function(socket) {
+  console.log("a user connected");
+});
