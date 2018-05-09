@@ -1,11 +1,62 @@
 extends layout
 
 block content
-  div#container(class="container")
-    header Welcome to #{title}
-      span#btn_menu
-        i(class="fas fa-bars")
-    section
-      div#canvas_container(class="glass")
-        canvas#canvas
-  div#menu(class="menu")
+  header Welcome to #{title}
+    span#btn_menu
+      i(class="fas fa-bars")
+  
+  div#info-panel
+    div#infotitle Game Data
+
+  div#container(
+    class="container"
+    data-flag="false"
+    )
+    div#info-panel
+    div#canvas_container(class="glass")
+      canvas#canvas
+  
+  div#menu
+    form
+      h2 Start a New Game
+      em 1
+      label Game Size
+      select(disabled="true")
+        option 800 x 800
+      br  
+      hr
+      em 2
+      label Goal Count
+      select(disabled="true")
+        option 1
+      br
+      hr
+      em 3
+      input(
+        type="text"
+        placeholder="User Name"
+      )
+      br
+      hr
+      em 4
+      select#choosegame
+        option(value="1") Create New Game
+        option(
+          selected="true"
+          value="2"
+          ) Join Game
+      hr
+      div#startgame
+        em 5
+        input(
+          type="text"
+          placeholder="Enter Your Game name"
+        )
+        button#btn_creategame Start!
+      div#joingame
+        em 5
+        select(size="5")#gamestojoin
+        br
+        br
+        button#btn_joingame Start!
+

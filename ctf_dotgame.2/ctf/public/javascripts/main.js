@@ -12,6 +12,21 @@ $("#canvas").width = "800";
 $("#canvas").height = "800";
 
 $("#btn_menu").addEventListener("click", function() {
-  $("#menu").classList.add("menu_reveal");
-  $("#container").classList.add("container_reveal");
+  if ($("#container").dataset.flag == "false") {
+    $("#container").classList.add("container_reveal");
+    $("#container").dataset.flag = true;
+  } else {
+    $("#container").classList.remove("container_reveal");
+    $("#container").dataset.flag = false;
+  }
+});
+
+$("#choosegame").addEventListener("change", function() {
+  if ($("#choosegame").value == "1") {
+    $("#startgame").style.display = "block";
+    $("#joingame").style.display = "none";
+  } else {
+    $("#startgame").style.display = "none";
+    $("#joingame").style.display = "block";
+  }
 });
