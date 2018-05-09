@@ -1,0 +1,67 @@
+.outer {
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  display: inline-block;
+  padding: 10px 15px;
+  color: #fff;
+  background: #d30043;
+  font-size: 15px !important;
+  left: 5px;
+  top: 5px;
+}
+
+h1 {
+  text-align: center;
+  font: 400 40px "open sans", sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 20px;
+}
+
+button {
+  border: none;
+  outline: none;
+  background: #eee;
+  color: #222;
+  padding: 10px 20px;
+  font: 300 20px "open sans", sans-serif;
+  transition: all 5s linear;
+}
+
+button:hover {
+  background: #d30043;
+  color: #fff;
+}
+
+.main {
+  width: 100%;
+  z-index: 2;
+  position: relative;
+  background: #002838;
+  transition: margin-left 0.3s ease-in;
+}
+
+.panel {
+  background: #333;
+  width: 300px;
+  color: #fff;
+  font: 300 50px "open sans", sans-serif;
+}
+
+/* Reveal */
+
+.main.ractive {
+  margin-left: -300px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.revealp {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
+}

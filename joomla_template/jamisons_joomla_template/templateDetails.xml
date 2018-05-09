@@ -18,7 +18,6 @@
 	</files>
 	<positions>
 		<position>jmenu</position>
-		<position>jbanner</position>
 		<position>jcarousel</position>	
 		<position>jtop</position>		
 		<position>jbreadcrumb</position>

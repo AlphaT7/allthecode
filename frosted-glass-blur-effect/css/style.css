@@ -1,4 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Dosis:200");
+html {
+  width: 100vw;
+  height: 100vh;
+}
+
 body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -8,10 +19,13 @@ body {
   background-size: 2em 2em;
   height: 100%;
   width: 100%;
-  margin: 0;
-  padding: 0;
 }
-
+body h1 {
+  color: white;
+  font-family: "Dosis";
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 1px black;
+}
 body::before {
   content: "";
   position: absolute;
@@ -19,29 +33,26 @@ body::before {
   height: 100%;
   display: block;
   background: rgba(255, 255, 255, 0.25);
-  z-index: -1;
-}
-
-header,
-section,
-footer,
-div {
-  box-sizing: border-box;
 }
 
 .glass {
   position: relative;
   box-sizing: border-box;
   padding: 0;
+  max-height: 90%;
+  max-width: 90%;
+  width: 250px;
+  height: 250px;
   border: 2px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.75), inset 0 0 2px 0px white;
+  border-radius: 25px 25px 0 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25), inset 0 0 2px 0px white;
   background: rgba(0, 0, 0, 0.0125);
+  resize: both;
   overflow: hidden;
   transition: all 200ms ease-in-out;
   -webkit-animation: resize 1.5s 0.5s;
   animation: resize 1.5s 0.5s;
 }
-
 .glass::after {
   content: "";
   position: absolute;
@@ -54,63 +65,47 @@ div {
   background-size: 2em 2em;
   -webkit-filter: blur(4px);
   filter: blur(4px);
-  z-index: -2;
+  z-index: -1;
 }
-
-header {
-  width: 100%;
-  height: 60px;
-  background: #1b4f72;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 20pt;
-  padding: 12px 0 0 30px;
-  color: #fff;
-  top: 0;
-  border-bottom: 1px solid #fff;
-  box-shadow: 0px 3px 10px 0px rgba(255, 255, 255, 0.75);
-  z-index: 2;
-}
-
-header span {
-  float: right;
-  margin: 0 25px 0 0;
-  cursor: pointer;
-}
-
-#canvas_container {
-  margin: 20px auto;
-  width: fit-content;
-  height: fit-content;
-}
-
-.container {
+.glass::before {
+  content: "";
+  display: block;
   position: absolute;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: none;
-  transition: margin-right 0.2s ease-in;
-  z-index: 2;
+  bottom: -10px;
+  right: -10px;
+  cursor: nwse-resize;
+  border: 10px solid transparent;
+  border-bottom: 10px solid #f06;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
 }
 
-.container_reveal {
-  right: 300px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
+@-webkit-keyframes resize {
+  from {
+    width: 250px;
+    height: 250px;
+  }
+  50% {
+    width: 85%;
+    height: 85%;
+  }
+  to {
+    width: 250px;
+    height: 250px;
+  }
 }
 
-.menu {
-  width: 300px;
-  height: 100%;
-  background-image: url("../images/asphalt.png");
-  position: absolute;
-  z-index: 1;
-  right: -300px;
-  top: 0;
-  transition: right 0.2s ease-in;
-}
-
-.menu_reveal {
-  right: 0px;
+@keyframes resize {
+  from {
+    width: 250px;
+    height: 250px;
+  }
+  50% {
+    width: 85%;
+    height: 85%;
+  }
+  to {
+    width: 250px;
+    height: 250px;
+  }
 }

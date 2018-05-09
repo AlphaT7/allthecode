@@ -1,6 +1,11 @@
 extends layout
 
 block content
-  header Capture the Flag!
-  p Welcome to #{title}
-  
+  div#container(class="container")
+    header Welcome to #{title}
+      span#btn_menu
+        i(class="fas fa-bars")
+    section
+      div#canvas_container(class="glass")
+        canvas#canvas
+  div#menu(class="menu")
