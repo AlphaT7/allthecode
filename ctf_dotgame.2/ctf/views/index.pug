@@ -1,12 +1,26 @@
 extends layout
 
 block content
-  header Welcome to #{title}
-    span#btn_menu
-      i(class="fas fa-bars")
+  header 
+    i(class="fas fa-flag")#logo
+    span Welcome to #{title}
+    i(class="fas fa-bars")#btn_menu
   
   div#info-panel
     div#infotitle Game Data
+    div#gridwrapper
+      div(class="info-item")
+        div Latency
+      div(class="info-item") 
+        div#showlatency &nbsp;
+      div(class="info-item")
+      div(class="info-item")
+      div(class="info-item")
+      div(class="info-item")
+      div(class="info-item")
+      div(class="info-item")
+      div(class="info-item")
+      div(class="info-item")
 
   div#container(
     class="container"
@@ -17,46 +31,60 @@ block content
       canvas#canvas
   
   div#menu
-    form
-      h2 Start a New Game
-      em 1
-      label Game Size
-      select(disabled="true")
-        option 800 x 800
-      br  
-      hr
-      em 2
-      label Goal Count
-      select(disabled="true")
-        option 1
-      br
-      hr
-      em 3
-      input(
-        type="text"
-        placeholder="User Name"
-      )
-      br
-      hr
-      em 4
-      select#choosegame
-        option(value="1") Create New Game
-        option(
-          selected="true"
-          value="2"
-          ) Join Game
-      hr
-      div#startgame
-        em 5
+    fieldset#formgroup
+      form#userinfo
+        h2 Start a New Game
+        em 1
+        select(required)#gamesize
+          option(
+            selected
+            value="700"
+            ) 700px * 700px
+        hr
+        em 2
+        select(required)#goalcount
+          option(value="1") 1 Goal
+        hr
+        em 3
         input(
           type="text"
-          placeholder="Enter Your Game name"
-        )
-        button#btn_creategame Start!
-      div#joingame
-        em 5
-        select(size="5")#gamestojoin
-        br
-        br
-        button#btn_joingame Start!
+          placeholder="User Name"
+          pattern="[a-z|A-Z|0-9]*"
+          required
+        )#username
+        hr
+        em 4
+        select(required)#hostorjoin
+          option(value="host") Create New Game
+          option(
+            selected
+            value="join"
+            ) Join Game
+        hr
+        div#startgame
+          em 5
+          input(
+            type="text"
+            placeholder="Enter Your Game name"
+            pattern="[a-z|A-Z|0-9]*"
+          )#newgame
+          input(
+            type="submit"
+            value="Start!"
+            )#btn_creategame
+        div#joingame
+          em 5
+          select(
+            required="true"
+          )#gamestojoin
+          input(
+            type="submit"
+            value="Start!"
+            )#btn_joingame
+        hr
+        em 6
+        label Latency Check
+        hr
+        em 7
+        label Game Status
 
