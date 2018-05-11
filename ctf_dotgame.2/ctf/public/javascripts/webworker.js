@@ -13,29 +13,13 @@ db.version(1).stores({
   goalboundries: "++id,who,x,y,w,h,c",
   dropboundry: "++id,x,y,w,h,c",
   dots: "++id,who,number,x,y,r,type,live",
-  gameinfo: "++id,who,live,latency,gameroom,playername"
+  gameinfo: "++id,who,live,latency,gameroom,gamesize,goalcount,playername"
 });
-
-//function recreateDatabase() {
-//return db
-//db.delete().then(() => db.open().then(postMessage({ msgtype: "dbcreated" })));
-//}
-/*
-recreateDatabase().then(db => {
-  // Here you have a fresh empty database with tables and indexes as defined in version(1),
-  // no matter what version the db was on earlier or what data it had.
-  db.goals.add({ who: "guest", x: 0, y: 0 });
-  db.goals.get(1, function(g) {
-    console.log("test - " + g.who);
-  });
-});
-*/
 
 let main = {
   variables: {
     latencycount: 0,
-    latencyarray: [],
-    gamelive: false
+    latencyarray: []
   }
 };
 
@@ -75,7 +59,9 @@ onmessage = function(e) {
               live: "false",
               gameroom: gameroom,
               playername: e.data.username,
-              who: who
+              who: who,
+              gamesize: e.data.gamesize,
+              goalcount: e.data.goalcount
             })
             .then(init());
         })
@@ -104,4 +90,8 @@ function init() {
     msgtype: "init"
   };
   setTimeout(() => postMessage(msg), 2000); // short time delay to preven undefined showing up in the latency field
+
+  db.gameinfo.get(1, function(info) {
+    socket.emit("newgame", info);
+  });
 }

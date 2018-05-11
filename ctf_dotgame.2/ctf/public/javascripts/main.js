@@ -60,7 +60,9 @@ $("#userinfo").addEventListener("submit", function(e) {
     username: "",
     gametype: "",
     newgame: "",
-    joingame: ""
+    joingame: "",
+    gamesize: "",
+    goalcount: ""
   };
 
   msg.gamesize = $("#gamesize").value;
@@ -69,6 +71,8 @@ $("#userinfo").addEventListener("submit", function(e) {
   msg.gametype = $("#hostorjoin").value;
   msg.newgame = $("#newgame").value;
   msg.joingame = $("#gamestojoin").value;
+  msg.gamesize = $("#gamesize").value;
+  msg.goalcount = $("#goalcount").value;
 
   $("#formgroup").disabled = true;
 
@@ -76,11 +80,8 @@ $("#userinfo").addEventListener("submit", function(e) {
 });
 
 function repaint() {
-  console.log(db.gameinfo);
-
   db.gameinfo.get(1, function(info) {
-    $("#showlatency").innerText = info.latency; //JSON.stringify(info);
+    $("#showlatency").innerText = info.latency;
   });
-
   window.requestAnimationFrame(repaint);
 }
