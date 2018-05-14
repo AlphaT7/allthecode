@@ -1,4 +1,36 @@
-exports = module.exports = function(io) {
+// https://gist.github.com/crtr0/2896891 --> Socket.IO Rooms Example
+// io.emit --> broadcast to everyone
+// socket.emit --> broadcast to just the sender
+
+/*
+// sending to sender-client only
+socket.emit('message', "this is a test");
+
+// sending to all clients, include sender
+io.emit('message', "this is a test");
+
+// sending to all clients except sender
+socket.broadcast.emit('message', "this is a test");
+
+// sending to all clients in 'game' room(channel) except sender
+socket.broadcast.to('game').emit('message', 'nice game');
+
+// sending to all clients in 'game' room(channel), include sender
+io.in('game').emit('message', 'cool game');
+
+// sending to sender client, only if they are in 'game' room(channel)
+socket.to('game').emit('message', 'enjoy the game');
+
+// sending to all clients in namespace 'myNamespace', include sender
+io.of('myNamespace').emit('message', 'gg');
+
+// sending to individual socketid
+socket.broadcast.to(socketid).emit('message', 'for your eyes only');
+*/
+
+"strict";
+
+exports = module.exports = function(io, mdb) {
   io.sockets.on("connection", function(socket) {
     socket.on("message", function(msg) {
       socket.emit("message", msg);
@@ -11,6 +43,39 @@ exports = module.exports = function(io) {
     });
 
     socket.on("newgame", function(data) {
+      mdb.connect("mongodb://localhost:27017/", function(err, db) {
+        if (err) throw err;
+        console.log("Connected to Mongo Database");
+
+        var dbo = db.db("ctf");
+
+        dbo
+          .collection("gamelist")
+          .findOne({ gameroom: data.gameroom }, function(err, result) {
+            if (err) throw err;
+            if (result) {
+              socket.emit(
+                "message",
+                "Game Room: [ " + result.gameroom + " ] is already in use."
+              );
+            } else {
+              dbo
+                .collection("gamelist")
+                .insert({
+                  gameroom: data.gameroom,
+                  host: socket.id
+                })
+                .then(function(result) {
+                  //db.close();
+                  console.log("Closed Connection");
+                });
+            }
+          });
+      });
+
+      socket.broadcast.emit("gamelistupdate", data.gameroom);
+
+      /*
       if (games.hasOwnProperty(data.gamename)) {
         socket.emit("message", "This name is already in use.");
       } else {
@@ -205,6 +270,7 @@ exports = module.exports = function(io) {
           socket.broadcast.emit("addgame", data.gamename);
         });
       }
+*/
     });
   });
 };

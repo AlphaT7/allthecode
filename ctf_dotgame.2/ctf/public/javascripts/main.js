@@ -20,6 +20,18 @@ webworker.onmessage = function(e) {
         dots: "++id,who,number,x,y,r,type,live",
         gameinfo: "++id,who,live,latency,gameroom,playername"
       });
+      break;
+    case "gamelistupdate":
+      $("#gamestojoin").innerHTML +=
+        '<option value="' +
+        e.data.gamename +
+        '">' +
+        e.data.gamename +
+        "</option>";
+      break;
+    case "message":
+      alert(e.data.content);
+      break;
   }
 };
 

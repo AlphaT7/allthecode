@@ -43,6 +43,23 @@ socket.on("server2client", function() {
   }
 });
 
+socket.on("gamelistupdate", function(data) {
+  let msg = {
+    msgtype: "gamelistupdate",
+    gamename: data
+  };
+
+  postMessage(msg);
+});
+
+socket.on("message", function(data) {
+  let msg = {
+    msgtype: "message",
+    content: data
+  };
+  postMessage(msg);
+});
+
 onmessage = function(e) {
   switch (e.data.msgtype) {
     case "usersetup":
