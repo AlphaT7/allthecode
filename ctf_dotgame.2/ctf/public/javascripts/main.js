@@ -30,7 +30,30 @@ webworker.onmessage = function(e) {
         "</option>";
       break;
     case "message":
-      alert(e.data.content);
+      $("#messagebox").innerHTML = e.data.content;
+      $("#messagebox").classList.add("blink");
+      setTimeout(function() {
+        $("#messagebox").classList.remove("blink");
+      }, 3000);
+      break;
+    case "echogamelist":
+      e.data.gamelist.forEach(element => {
+        $("#gamestojoin").innerHTML +=
+          "<option value='" +
+          element.gameroom +
+          "'>" +
+          element.gameroom +
+          "</option>";
+      });
+      break;
+    case "gamelistremoval":
+      for (var i = 0; i < $("#gamestojoin").length; i++) {
+        if ($("#gamestojoin").options[i].value == e.data.gameroom)
+          $("#gamestojoin").remove(i);
+      }
+      break;
+    case "disableform":
+      $("#formgroup").disabled = true;
       break;
   }
 };
@@ -85,8 +108,6 @@ $("#userinfo").addEventListener("submit", function(e) {
   msg.joingame = $("#gamestojoin").value;
   msg.gamesize = $("#gamesize").value;
   msg.goalcount = $("#goalcount").value;
-
-  $("#formgroup").disabled = true;
 
   webworker.postMessage(msg);
 });

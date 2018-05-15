@@ -23,6 +23,15 @@ let main = {
   }
 };
 
+socket.emit("gamelistrequest");
+socket.on("gamelistresponse", function(data) {
+  let msg = {
+    msgtype: "echogamelist",
+    gamelist: data
+  };
+  postMessage(msg);
+});
+
 socket.on("server2client", function() {
   // In order to create a real-time latency check, we have to first store date/time in an array.
   // This is done via function 'client2server' and stores the date in array main.variables.latencyarray.
@@ -60,6 +69,21 @@ socket.on("message", function(data) {
   postMessage(msg);
 });
 
+socket.on("gameinitialized", function(data) {
+  let msg = {
+    msgtype: "disableform"
+  };
+  postMessage(msg);
+});
+
+socket.on("gamelistremoval", function(data) {
+  let msg = {
+    msgtype: "gamelistremoval",
+    gameroom: data
+  };
+  postMessage(msg);
+});
+
 onmessage = function(e) {
   switch (e.data.msgtype) {
     case "usersetup":
@@ -67,16 +91,15 @@ onmessage = function(e) {
         db.open().then(function() {
           // Here you have a fresh empty database with tables and indexes as defined in version(1),
           // no matter what version the db was on earlier or what data it had.
-          let who = e.data.newgame == "" ? "guest" : "host";
           let gameroom =
-            e.data.newgame == "" ? e.data.joingame : e.data.newgame;
-
+            e.data.gametype == "join" ? e.data.joingame : e.data.newgame;
+          let gametype = e.data.gametype == "join" ? "guest" : "host";
           db.gameinfo
             .add({
               live: "false",
               gameroom: gameroom,
               playername: e.data.username,
-              who: who,
+              who: gametype,
               gamesize: e.data.gamesize,
               goalcount: e.data.goalcount
             })
@@ -109,6 +132,8 @@ function init() {
   setTimeout(() => postMessage(msg), 2000); // short time delay to preven undefined showing up in the latency field
 
   db.gameinfo.get(1, function(info) {
-    socket.emit("newgame", info);
+    info.who == "guest"
+      ? socket.emit("joingame", info)
+      : socket.emit("newgame", info);
   });
 }

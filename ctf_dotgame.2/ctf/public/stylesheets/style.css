@@ -221,13 +221,16 @@ header #logo {
 #info-panel #infotitle {
   width: 100%;
   height: 60px;
-  background: rgb(24, 53, 24);
   background: rgb(62, 184, 62);
   border-bottom: 1px solid #fff;
   color: #fff;
-  padding: 17px;
+  padding: 12px;
   font-weight: bold;
-  font-size: 18pt;
+  font-size: 24pt;
+}
+
+#info-panel #infotitle span {
+  margin: 0 0 0 25px;
 }
 
 #info-panel #gridwrapper {
@@ -262,4 +265,37 @@ header #logo {
 #info-panel .info-item:nth-child(odd) div {
   padding: 5px;
   width: 150px;
+}
+
+#info-panel #messagetitle {
+  width: 100%;
+  height: 60px;
+  background: rgb(62, 184, 62);
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  padding: 12px;
+  font-weight: bold;
+  font-size: 24pt;
+}
+
+#info-panel #messagetitle span {
+  margin: 0 0 0 25px;
+}
+
+#messagebox {
+  width: 80%;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }

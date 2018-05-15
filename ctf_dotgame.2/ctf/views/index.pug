@@ -3,11 +3,13 @@ extends layout
 block content
   header 
     i(class="fas fa-flag")#logo
-    span Welcome to #{title}
+    span The Dot Game - #{title}
     i(class="fas fa-bars")#btn_menu
   
   div#info-panel
-    div#infotitle Game Data
+    div#infotitle
+      i(class="fas fa-database")
+      span Game Data
     div#gridwrapper
       div(class="info-item")
         div Latency
@@ -23,6 +25,10 @@ block content
       div(class="info-item")
       div(class="info-item")
       div(class="info-item")
+    div#messagetitle 
+      i(class="fas fa-exclamation-square")
+      span Game Alerts
+    div#messagebox Hello! Welcome to Capture the Flag!
 
   div#container(
     class="container"
@@ -50,13 +56,17 @@ block content
         em 3
         input(
           type="text"
-          placeholder="User Name"
+          placeholder="Player Name"
           pattern="[a-z|A-Z|0-9]*"
+          title="Your player name"
           required
         )#username
         hr
         em 4
-        select(required)#hostorjoin
+        select(
+          required,
+          title="Join or Create Game"
+          )#hostorjoin
           option(value="host") Create New Game
           option(
             selected
@@ -67,7 +77,8 @@ block content
           em 5
           input(
             type="text"
-            placeholder="Enter Your Game name"
+            placeholder="Enter Your Game Channel"
+            title="Enter your game channel name"
             pattern="[a-z|A-Z|0-9]*"
           )#newgame
           input(
@@ -78,6 +89,7 @@ block content
           em 5
           select(
             required="true"
+            title="Join a game channel!"
           )#gamestojoin
           input(
             type="submit"
