@@ -13,7 +13,8 @@ db.version(1).stores({
   goalboundries: "++id,who,x,y,w,h,c",
   dropboundry: "++id,x,y,w,h,c",
   dots: "++id,who,number,x,y,r,type,live",
-  gameinfo: "++id,who,live,latency,gameroom,gamesize,goalcount,playername"
+  gameinfo:
+    "++id,who,live,latency,gameroom,gamesize,goalcount,playername,opponentname"
 });
 
 let main = {
@@ -82,6 +83,24 @@ socket.on("gamelistremoval", function(data) {
     gameroom: data
   };
   postMessage(msg);
+});
+
+socket.on("gamedata", function(data) {
+  let msg = {
+    msgtype: "gamedata"
+  };
+
+  db.gameinfo
+    .get(1, function(info) {
+      info.who == "host"
+        ? db.gameinfo.update(1, {
+            opponentname: data[0].guestname
+          })
+        : db.gameinfo.update(1, {
+            opponentname: data[0].hostname
+          });
+    })
+    .then(() => postMessage(msg));
 });
 
 onmessage = function(e) {

@@ -135,15 +135,30 @@ exports = module.exports = function(io, mdb) {
                   },
                   function(err, result) {
                     if (err) throw err;
-                    db.close();
-                    console.log("Closed Connection");
+
                     socket.join(data.gameroom);
                     socket.emit(
                       "message",
                       "Game channel '" + data.gameroom + "' has been joined."
                     );
-                    io.to(data.gameroom).emit("gameinitialized");
+                    io.in(data.gameroom).emit("gameinitialized");
                     io.emit("gamelistremoval", data.gameroom);
+
+                    dbo
+                      .collection("gamelist")
+                      .find({ gameroom: data.gameroom })
+                      .project({
+                        hostname: 1,
+                        guestname: 1,
+                        gameroom: 1,
+                        _id: false
+                      })
+                      .toArray(function(err, result) {
+                        if (err) throw err;
+                        io.to(data.gameroom).emit("gamedata", result);
+                        db.close();
+                        console.log("Closed Connection");
+                      });
                   }
                 );
               }

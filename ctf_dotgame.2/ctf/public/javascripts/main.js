@@ -18,7 +18,7 @@ webworker.onmessage = function(e) {
         goalboundries: "++id,who,x,y,w,h,c",
         dropboundry: "++id,x,y,w,h,c",
         dots: "++id,who,number,x,y,r,type,live",
-        gameinfo: "++id,who,live,latency,gameroom,playername"
+        gameinfo: "++id,who,live,latency,gameroom,playername,opponentname"
       });
       break;
     case "gamelistupdate":
@@ -54,6 +54,11 @@ webworker.onmessage = function(e) {
       break;
     case "disableform":
       $("#formgroup").disabled = true;
+      break;
+    case "gamedata":
+      db.gameinfo.get(1, function(info) {
+        $("#opponent").innerHTML = info.opponentname;
+      });
       break;
   }
 };
