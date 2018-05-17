@@ -113,6 +113,7 @@ onmessage = function(e) {
           let gameroom =
             e.data.gametype == "join" ? e.data.joingame : e.data.newgame;
           let gametype = e.data.gametype == "join" ? "guest" : "host";
+
           db.gameinfo
             .add({
               live: "false",

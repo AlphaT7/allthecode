@@ -259,7 +259,7 @@ header #logo {
   padding: 5px;
   background: #3eb83e;
   border-radius: 5px;
-  width: 100px;
+  width: 135px;
 }
 
 #info-panel .info-item:nth-child(odd) div {
@@ -280,6 +280,11 @@ header #logo {
 
 #info-panel #messagetitle span {
   margin: 0 0 0 25px;
+}
+
+#info-panel #opponent {
+  overflow: hidden;
+  height: 33px;
 }
 
 #messagebox {

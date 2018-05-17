@@ -59,12 +59,25 @@ webworker.onmessage = function(e) {
       db.gameinfo.get(1, function(info) {
         $("#opponent").innerHTML = info.opponentname;
       });
+      $("#gamesetup").innerHTML = "Starting...";
+      $("#gamesetup").classList.add("blink");
+      setTimeout(function() {
+        $("#gamesetup").classList.remove("blink");
+        $("#gamesetup").innerHTML = "Live";
+        $("#gamestatus").innerHTML = "Live";
+        $("#container").classList.remove("container_reveal");
+        $("#container").dataset.flag = false;
+      }, 3000);
       break;
   }
 };
 
 $("#canvas").width = "700";
 $("#canvas").height = "700";
+
+$("#canvas").addEventListener("click", function(e) {
+  alert("test");
+});
 
 $("#btn_menu").addEventListener("click", function() {
   if ($("#container").dataset.flag == "false") {

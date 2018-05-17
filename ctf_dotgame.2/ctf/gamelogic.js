@@ -86,7 +86,9 @@ exports = module.exports = function(io, mdb) {
                   gameroom: data.gameroom,
                   host: socket.id,
                   hostname: data.playername,
-                  playercount: "1"
+                  playercount: "1",
+                  gamesize: data.gamesize,
+                  goalcount: data.goalcount
                 })
                 .then(function() {
                   socket.join(data.gameroom);
