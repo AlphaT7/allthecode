@@ -1,33 +1,33 @@
 const $ = q => {
   return document.querySelector(q);
 };
-let db;
+
+let ctx = $("canvas").getContext("2d");
+
 let webworker = new Worker("javascripts/webworker.js");
-webworker.postMessage("a message");
+//webworker.postMessage("a message");
 webworker.onmessage = function(e) {
-  switch (e.data.msgtype) {
+  switch (e.data.type) {
     case "init":
       repaint(db);
-      break;
-    case "dbcreated":
-      db = new Dexie("ctf");
-      db.version(1).stores({
-        //colors: "++id, color, description",
-        goals: "++id,who,x,y",
-        flags: "++id,who,x,y,src",
-        goalboundries: "++id,who,x,y,w,h,c",
-        dropboundry: "++id,x,y,w,h,c",
-        dots: "++id,who,number,x,y,r,type,live",
-        gameinfo: "++id,who,live,latency,gameroom,playername,opponentname"
-      });
       break;
     case "gamelistupdate":
       $("#gamestojoin").innerHTML +=
         '<option value="' +
-        e.data.gamename +
+        e.data.channel +
         '">' +
-        e.data.gamename +
+        e.data.channel +
         "</option>";
+      break;
+    case "gamelistpost":
+      e.data.list.forEach((element, index, array) => {
+        $("#gamestojoin").innerHTML +=
+          "<option value='" +
+          element.channel +
+          "'>" +
+          element.channel +
+          "</option>";
+      });
       break;
     case "message":
       $("#messagebox").innerHTML = e.data.content;
@@ -76,7 +76,7 @@ $("#canvas").width = "700";
 $("#canvas").height = "700";
 
 $("#canvas").addEventListener("click", function(e) {
-  alert("test");
+  //  alert("test");
 });
 
 $("#btn_menu").addEventListener("click", function() {

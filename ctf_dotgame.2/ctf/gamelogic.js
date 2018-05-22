@@ -1,40 +1,190 @@
-// https://gist.github.com/crtr0/2896891 --> Socket.IO Rooms Example
-// io.emit --> broadcast to everyone
-// socket.emit --> broadcast to just the sender
-
-/*
-// sending to sender-client only
-socket.emit('message', "this is a test");
-
-// sending to all clients, include sender
-io.emit('message', "this is a test");
-
-// sending to all clients except sender
-socket.broadcast.emit('message', "this is a test");
-
-// sending to all clients in 'game' room(channel) except sender
-socket.broadcast.to('game').emit('message', 'nice game');
-
-// sending to all clients in 'game' room(channel), include sender
-io.in('game').emit('message', 'cool game');
-
-// sending to sender client, only if they are in 'game' room(channel)
-socket.to('game').emit('message', 'enjoy the game');
-
-// sending to all clients in namespace 'myNamespace', include sender
-io.of('myNamespace').emit('message', 'gg');
-
-// sending to individual socketid
-socket.broadcast.to(socketid).emit('message', 'for your eyes only');
-*/
-
 "strict";
 
-exports = module.exports = function(io, mdb) {
+exports = module.exports = function(WebSocket, mdb, url) {
+  const wss = new WebSocket.Server({ port: 8080 });
+
+  const channels = [];
+
+  wss.on("connection", function connection(ws, req) {
+    const parameters = url.parse(req.url, true);
+    ws.id = parameters.query.id;
+    console.log(ws.id + " - id connected");
+
+    const broadcast = data => {
+      //broadcast to everyone including the sender
+      wss.clients.forEach(function each(client) {
+        client.send(JSON.stringify(data));
+      });
+    };
+
+    const broadcast1 = data => {
+      //broadcast to everyone except the sender
+      wss.clients.forEach(function each(client) {
+        if (client.id != ws.id) {
+          client.send(JSON.stringify(data));
+        }
+      });
+    };
+
+    const broadcast2 = data => {
+      //broadcast to everyone in game channel
+      wss.clients.forEach(function each(client) {
+        if (client.channel == data.channel) {
+          client.send(JSON.stringify(data));
+        }
+      });
+    };
+
+    const broadcast3 = data => {
+      //broadcast to everyone in game channel except sender
+      wss.clients.forEach(function each(client) {
+        if (client.channel == data.channel && client.id != ws.id) {
+          client.send(JSON.stringify(data));
+        }
+      });
+    };
+
+    mdb.connect("mongodb://localhost:27017/", function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("ctf");
+      var gamelist = dbo
+        .collection("gamelist")
+        .find({ playercount: "1" })
+        .project({ channel: 1, _id: false })
+        .toArray(function(err, result) {
+          if (err) throw err;
+          if (result) {
+            console.log(result);
+            let data = { type: "gamelistpost", list: result };
+            ws.send(JSON.stringify(data));
+          }
+          db.close();
+        });
+    });
+
+    let data = "";
+
+    ws.on("message", function incoming(message) {
+      switch (JSON.parse(message).type) {
+        case "message":
+          console.log("received:" + JSON.parse(message).msg);
+          break;
+
+        case "newgame":
+          data = JSON.parse(message);
+          mdb.connect("mongodb://localhost:27017/", function(err, db) {
+            if (err) throw err;
+
+            var dbo = db.db("ctf");
+
+            dbo
+              .collection("gamelist")
+              .findOne({ channel: data.channel }, function(err, result) {
+                if (err) throw err;
+                if (result) {
+                  ws.send(
+                    JSON.stringify({
+                      type: "message",
+                      message:
+                        "The name '" +
+                        result.channel +
+                        "' is already in use.  Please pick a different name for your game channel."
+                    })
+                  );
+                } else {
+                  dbo
+                    .collection("gamelist")
+                    .insert({
+                      channel: data.channel,
+                      host: ws.id,
+                      hostname: data.playername,
+                      playercount: "1",
+                      gamesize: data.gamesize,
+                      goalcount: data.goalcount
+                    })
+                    .then(function() {
+                      ws.channel = data.channel;
+                      ws.send(
+                        JSON.stringify({
+                          type: "message",
+                          message: "Room Joined Successfully!"
+                        })
+                      );
+                      broadcast({
+                        type: "gamelistupdate",
+                        channel: data.channel
+                      });
+                      db.close();
+                    });
+                }
+              });
+          });
+          break;
+        case "joingame":
+          data = JSON.parse(message);
+          mdb.connect("mongodb://localhost:27017/", function(err, db) {
+            if (err) throw err;
+
+            var dbo = db.db("ctf");
+
+            dbo
+              .collection("gamelist")
+              .findOne(
+                { channel: data.channel, hostname: data.playername },
+                function(err, result) {
+                  if (err) throw err;
+                  if (result) {
+                    ws.send(
+                      JSON.stringify({
+                        type: "message",
+                        message:
+                          "User name '" +
+                          result.hostname +
+                          "' is already in use. Please pick a different user name."
+                      })
+                    );
+                  } else {
+                    console.log(ws.id);
+                    dbo
+                      .collection("gamelist")
+                      .updateOne({
+                        guest: ws.id,
+                        guestname: data.playername,
+                        playercount: "2"
+                      })
+                      .then(function() {
+                        ws.channel = data.channel;
+                        broadcast2({
+                          type: "message",
+                          channel: data.channel,
+                          message: "successfully broadcasted to channel"
+                        });
+                        ws.send(
+                          JSON.stringify({
+                            type: "message",
+                            message: "Room Joined Successfully!"
+                          })
+                        );
+                        db.close();
+                      });
+                  }
+                }
+              );
+          });
+          break;
+        default:
+          break;
+      }
+    });
+  });
+  /*
   io.sockets.on("connection", function(socket) {
+    var promise = new Promise(function(resolve, reject) {
+      resolve(1);
+    });
+
     socket.on("message", function(msg) {
       socket.emit("message", msg);
-      console.log("message event triggered");
     });
 
     // MEASURE NETWORK LATENCY BETWEEN THE CLIENT AND THE SERVER
@@ -97,6 +247,12 @@ exports = module.exports = function(io, mdb) {
                     "message",
                     "Game channel '" + data.gameroom + "' has been created."
                   );
+                  socket.emit("newgame_success", {
+                    gameroom: data.gameroom,
+                    hostname: data.playername,
+                    gamesize: data.gamesize,
+                    goalcount: data.goalcount
+                  });
                   db.close();
                   console.log("Closed Connection");
                 });
@@ -126,47 +282,59 @@ exports = module.exports = function(io, mdb) {
                     "' is already in use. Please pick a different user name."
                 );
               } else {
-                dbo.collection("gamelist").updateOne(
-                  { gameroom: data.gameroom },
-                  {
-                    $set: {
-                      guest: socket.id,
-                      guestname: data.playername,
-                      playercount: 2
+                let cb = () => {
+                  console.log(Object.keys(io.sockets.connected));
+                  dbo
+                    .collection("gamelist")
+                    .find({ gameroom: data.gameroom })
+                    .project({
+                      host: 1,
+                      guest: 1,
+                      hostname: 1,
+                      guestname: 1,
+                      gameroom: 1,
+                      _id: false
+                    })
+                    .toArray(function(err, result) {
+                      if (err) throw err;
+                      console.log(result);
+                      Object.keys(io.sockets.connected).forEach(
+                        (element, index, array) => {
+                          socket.to(element).emit("joingame_success", result);
+                        }
+                      );
+                      db.close();
+                      console.log("Closed Connection");
+                    });
+                };
+
+                (cb => {
+                  dbo.collection("gamelist").updateOne(
+                    { gameroom: data.gameroom },
+                    {
+                      $set: {
+                        guest: socket.id,
+                        guestname: data.playername,
+                        playercount: 2
+                      }
+                    },
+                    function(err, result) {
+                      if (err) throw err;
+                      socket.join(data.gameroom);
+                      socket.emit(
+                        "message",
+                        "Game channel '" + data.gameroom + "' has been joined."
+                      );
+                      io.emit("gamelistremoval", data.gameroom);
                     }
-                  },
-                  function(err, result) {
-                    if (err) throw err;
-
-                    socket.join(data.gameroom);
-                    socket.emit(
-                      "message",
-                      "Game channel '" + data.gameroom + "' has been joined."
-                    );
-                    io.in(data.gameroom).emit("gameinitialized");
-                    io.emit("gamelistremoval", data.gameroom);
-
-                    dbo
-                      .collection("gamelist")
-                      .find({ gameroom: data.gameroom })
-                      .project({
-                        hostname: 1,
-                        guestname: 1,
-                        gameroom: 1,
-                        _id: false
-                      })
-                      .toArray(function(err, result) {
-                        if (err) throw err;
-                        io.to(data.gameroom).emit("gamedata", result);
-                        db.close();
-                        console.log("Closed Connection");
-                      });
-                  }
-                );
+                  );
+                  cb();
+                })(cb);
               }
             }
           );
       });
     });
   });
+*/
 };

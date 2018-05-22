@@ -1,20 +1,15 @@
-importScripts("/socket.io/socket.io.js");
+//importScripts("/socket.io/socket.io.js");
 importScripts("dexie.min.js");
 
-var socket = io();
-
-// Create your IndexedDB instance
 const db = new Dexie("ctf");
-
 db.version(1).stores({
   //colors: "++id, color, description",
   goals: "++id,who,x,y",
   flags: "++id,who,x,y,src",
-  goalboundries: "++id,who,x,y,w,h,c",
+  goalboundry: "++id,who,x,y,w,h,c",
   dropboundry: "++id,x,y,w,h,c",
   dots: "++id,who,number,x,y,r,type,live",
-  gameinfo:
-    "++id,who,live,latency,gameroom,gamesize,goalcount,playername,opponentname"
+  gameinfo: "++id,who,live,latency,gameroom,playername,opponentname"
 });
 
 let main = {
@@ -23,6 +18,49 @@ let main = {
     latencyarray: []
   }
 };
+
+const id = function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + "-" + s4();
+};
+
+// Let us open a web socket
+var ws = new WebSocket("ws://192.168.1.110:8080?id=" + id());
+
+ws.onopen = function() {
+  // Web Socket is connected, send data using send()
+  console.log("WebSocket Connection Opened");
+  //ws.send(JSON.stringify({ type: "channelrequest" }));
+};
+
+ws.onmessage = function(e) {
+  let data = JSON.parse(e.data);
+
+  switch (data.type) {
+    case "message":
+      console.log(data.message);
+      break;
+    case "gamelistupdate":
+      postMessage(data);
+      break;
+    case "gamelistpost":
+      postMessage(data);
+      break;
+  }
+};
+
+ws.onclose = function() {
+  console.log("Connection is closed...");
+};
+
+/*
+var socket = io();
+
+
 
 socket.emit("gamelistrequest");
 socket.on("gamelistresponse", function(data) {
@@ -58,7 +96,6 @@ socket.on("gamelistupdate", function(data) {
     msgtype: "gamelistupdate",
     gamename: data
   };
-
   postMessage(msg);
 });
 
@@ -85,56 +122,54 @@ socket.on("gamelistremoval", function(data) {
   postMessage(msg);
 });
 
-socket.on("gamedata", function(data) {
+socket.on("joingame_success", function(data) {
   let msg = {
     msgtype: "gamedata"
   };
-
-  db.gameinfo
-    .get(1, function(info) {
-      info.who == "host"
-        ? db.gameinfo.update(1, {
-            opponentname: data[0].guestname
-          })
-        : db.gameinfo.update(1, {
-            opponentname: data[0].hostname
-          });
-    })
-    .then(() => postMessage(msg));
+  console.log(data + " - test");
+  data.who == "host"
+    ? db.gameinfo
+        .update(1, {
+          opponentname: data[0].guestname
+        })
+        .then(() => postMessage(msg))
+    : db.gameinfo
+        .update(1, {
+          who: "guest",
+          opponentname: data[0].hostname
+        })
+        .then(() => postMessage(msg));
 });
-
+*/
 onmessage = function(e) {
   switch (e.data.msgtype) {
     case "usersetup":
-      db.delete().then(() =>
-        db.open().then(function() {
-          // Here you have a fresh empty database with tables and indexes as defined in version(1),
-          // no matter what version the db was on earlier or what data it had.
-          let gameroom =
-            e.data.gametype == "join" ? e.data.joingame : e.data.newgame;
-          let gametype = e.data.gametype == "join" ? "guest" : "host";
+      let channel =
+        e.data.gametype == "join" ? e.data.joingame : e.data.newgame;
+      let gametype = e.data.gametype == "join" ? "guest" : "host";
 
-          db.gameinfo
-            .add({
-              live: "false",
-              gameroom: gameroom,
-              playername: e.data.username,
-              who: gametype,
-              gamesize: e.data.gamesize,
-              goalcount: e.data.goalcount
-            })
-            .then(init());
-        })
-      );
+      data = {
+        type: gametype == "guest" ? "joingame" : "newgame",
+        live: "false",
+        channel: channel,
+        playername: e.data.username,
+        who: gametype,
+        gamesize: e.data.gamesize,
+        goalcount: e.data.goalcount
+      };
 
-      postMessage({ msgtype: "dbcreated" });
+      db.gameinfo.update(1, {
+        who: e.data.gametype == "join" ? "guest" : "host"
+      });
+
+      ws.send(JSON.stringify(data));
 
       break;
     default:
       break;
   }
 };
-
+/*
 const latency = function() {
   let mv = main.variables;
 
@@ -144,16 +179,22 @@ const latency = function() {
   }, 1000);
 };
 
-function init() {
+socket.on("newgame_success", function(data) {
   latency();
   let msg = {
     msgtype: "init"
   };
-  setTimeout(() => postMessage(msg), 2000); // short time delay to preven undefined showing up in the latency field
 
-  db.gameinfo.get(1, function(info) {
-    info.who == "guest"
-      ? socket.emit("joingame", info)
-      : socket.emit("newgame", info);
+  // short time delay to preven undefined showing up in the latency field
+  //setTimeout(() => postMessage(msg), 1000);
+  postMessage(msg);
+
+  db.gameinfo.update(1, {
+    live: "false",
+    gameroom: data.gameroom,
+    playername: data.hostname,
+    gamesize: data.gamesize,
+    goalcount: data.goalcount
   });
-}
+});
+*/
