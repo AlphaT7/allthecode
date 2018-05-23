@@ -9,7 +9,7 @@ db.version(1).stores({
   goalboundry: "++id,who,x,y,w,h,c",
   dropboundry: "++id,x,y,w,h,c",
   dots: "++id,who,number,x,y,r,type,live",
-  gameinfo: "++id,who,live,latency,gameroom,playername,opponentname"
+  gameinfo: "++id,who,live,latency,channel,playername,opponentname"
 });
 
 let main = {
@@ -29,12 +29,18 @@ const id = function() {
 };
 
 // Let us open a web socket
-var ws = new WebSocket("ws://192.168.1.110:8080?id=" + id());
+var ws = new WebSocket("ws://192.168.1.123:8080?id=" + id());
 
 ws.onopen = function() {
-  // Web Socket is connected, send data using send()
   console.log("WebSocket Connection Opened");
   //ws.send(JSON.stringify({ type: "channelrequest" }));
+
+  let mv = main.variables;
+
+  var latencytest = setInterval(function() {
+    mv.latencyarray.push(new Date()); //Date.now();
+    ws.send(JSON.stringify({ type: "client2server" }));
+  }, 1000);
 };
 
 ws.onmessage = function(e) {
@@ -42,13 +48,63 @@ ws.onmessage = function(e) {
 
   switch (data.type) {
     case "message":
-      console.log(data.message);
+      //message to be displayed on the screen
+      postMessage(data);
       break;
     case "gamelistupdate":
+      //sends a brodcast to all connected sockets
+      //to add a channel to their game list
       postMessage(data);
       break;
     case "gamelistpost":
+      //when the game first loads it receives the
+      //list of open games to add to its select tag
       postMessage(data);
+      break;
+    case "gamelistremoval":
+      //when a game is filled, this broadcast
+      //removes the game from every connected socket
+      postMessage(data);
+      break;
+    case "gamedata":
+      //after a game is joined by a 2nd player,
+      //final game init data is sent to both players
+      let who = "";
+      db.gameinfo.get(1, function(info) {
+        who = info.who;
+      });
+      db.gameinfo.update(1, {
+        channel: data.channel,
+        playername: who == "host" ? data.guestname : data.hostname,
+        opponentname: who == "host" ? data.hostname : data.guestname
+      });
+      console.log(data);
+      postMessage(data);
+      break;
+
+    case "server2client":
+      // In order to create a real-time latency check, we have to first store date/time in an array.
+      // This is done via function 'client2server' and stores the date in array main.variables.latencyarray.
+      // The server receives the signal from the client, and responds with signal server2client.
+      // This function subtracts the date in the latencystart array at the latencycount position and displays it on the screen.
+      console.log("test");
+      let mv = main.variables;
+      db.gameinfo.update(1, {
+        latency: Date.now() - mv.latencyarray[mv.latencycount] + " ms"
+      });
+      mv.latencycount++;
+      if (mv.latencycount == 1) {
+        setTimeout(() => {
+          postMessage({ type: "init" });
+        }, 200);
+      }
+      // Keep main.variables.latencyarray.length at about 300
+      // The function main.methods.latency fires every 1 second
+      // So this gives it about 5 minutes worth of latency data
+      if (mv.latencyarray.length > 300) {
+        mv.latencyarray.splice(0, 1);
+        mv.latencycount--;
+      }
       break;
   }
 };
@@ -170,14 +226,7 @@ onmessage = function(e) {
   }
 };
 /*
-const latency = function() {
-  let mv = main.variables;
 
-  var latencytest = setInterval(function() {
-    mv.latencyarray.push(new Date()); //Date.now();
-    socket.emit("client2server");
-  }, 1000);
-};
 
 socket.on("newgame_success", function(data) {
   latency();

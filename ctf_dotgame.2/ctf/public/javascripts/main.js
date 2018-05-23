@@ -9,7 +9,7 @@ let webworker = new Worker("javascripts/webworker.js");
 webworker.onmessage = function(e) {
   switch (e.data.type) {
     case "init":
-      repaint(db);
+      repaint();
       break;
     case "gamelistupdate":
       $("#gamestojoin").innerHTML +=
@@ -30,25 +30,15 @@ webworker.onmessage = function(e) {
       });
       break;
     case "message":
-      $("#messagebox").innerHTML = e.data.content;
+      $("#messagebox").innerHTML = e.data.message;
       $("#messagebox").classList.add("blink");
       setTimeout(function() {
         $("#messagebox").classList.remove("blink");
       }, 3000);
       break;
-    case "echogamelist":
-      e.data.gamelist.forEach(element => {
-        $("#gamestojoin").innerHTML +=
-          "<option value='" +
-          element.gameroom +
-          "'>" +
-          element.gameroom +
-          "</option>";
-      });
-      break;
     case "gamelistremoval":
       for (var i = 0; i < $("#gamestojoin").length; i++) {
-        if ($("#gamestojoin").options[i].value == e.data.gameroom)
+        if ($("#gamestojoin").options[i].value == e.data.channel)
           $("#gamestojoin").remove(i);
       }
       break;
@@ -58,6 +48,7 @@ webworker.onmessage = function(e) {
     case "gamedata":
       db.gameinfo.get(1, function(info) {
         $("#opponent").innerHTML = info.opponentname;
+        $("#channel").innerHTML = info.channel;
       });
       $("#gamesetup").innerHTML = "Starting...";
       $("#gamesetup").classList.add("blink");

@@ -11,7 +11,7 @@ db
       goalboundry: "++id,who,x,y,w,h,c",
       dropboundry: "++id,x,y,w,h,c",
       dots: "++id,who,number,x,y,r,type,live",
-      gameinfo: "++id,who,live,latency,gameroom,playername,opponentname"
+      gameinfo: "++id,who,live,latency,channel,playername,opponentname"
     });
   })
   .then(() => {
@@ -88,7 +88,7 @@ db
       who: "placeholder",
       live: "placeholder",
       latency: 0,
-      gameroom: "placeholder",
+      channel: "placeholder",
       playername: "placeholder",
       opponentname: "placeholder"
     });

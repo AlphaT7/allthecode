@@ -54,7 +54,6 @@ exports = module.exports = function(WebSocket, mdb, url) {
         .toArray(function(err, result) {
           if (err) throw err;
           if (result) {
-            console.log(result);
             let data = { type: "gamelistpost", list: result };
             ws.send(JSON.stringify(data));
           }
@@ -68,6 +67,10 @@ exports = module.exports = function(WebSocket, mdb, url) {
       switch (JSON.parse(message).type) {
         case "message":
           console.log("received:" + JSON.parse(message).msg);
+          break;
+
+        case "client2server":
+          ws.send(JSON.stringify({ type: "server2client" }));
           break;
 
         case "newgame":
@@ -102,8 +105,10 @@ exports = module.exports = function(WebSocket, mdb, url) {
                       gamesize: data.gamesize,
                       goalcount: data.goalcount
                     })
-                    .then(function() {
+                    .then(() => {
                       ws.channel = data.channel;
+                    })
+                    .then(() => {
                       ws.send(
                         JSON.stringify({
                           type: "message",
@@ -144,20 +149,25 @@ exports = module.exports = function(WebSocket, mdb, url) {
                       })
                     );
                   } else {
-                    console.log(ws.id);
                     dbo
                       .collection("gamelist")
-                      .updateOne({
-                        guest: ws.id,
-                        guestname: data.playername,
-                        playercount: "2"
-                      })
+                      .updateOne(
+                        {
+                          channel: data.channel
+                        },
+                        {
+                          $set: {
+                            guest: ws.id,
+                            guestname: data.playername,
+                            playercount: "2"
+                          }
+                        }
+                      )
                       .then(function() {
                         ws.channel = data.channel;
-                        broadcast2({
-                          type: "message",
-                          channel: data.channel,
-                          message: "successfully broadcasted to channel"
+                        broadcast({
+                          type: "gamelistremoval",
+                          channel: data.channel
                         });
                         ws.send(
                           JSON.stringify({
@@ -165,7 +175,24 @@ exports = module.exports = function(WebSocket, mdb, url) {
                             message: "Room Joined Successfully!"
                           })
                         );
-                        db.close();
+                      })
+                      .then(function() {
+                        dbo
+                          .collection("gamelist")
+                          .find({ channel: data.channel })
+                          .project({
+                            channel: 1,
+                            hostname: 1,
+                            guestname: 1,
+                            _id: false
+                          })
+                          .toArray(function(err, result) {
+                            if (err) throw err;
+                            result[0].type = "gamedata";
+                            console.log(result[0]);
+                            broadcast2(result[0]);
+                            db.close();
+                          });
                       });
                   }
                 }
@@ -187,10 +214,7 @@ exports = module.exports = function(WebSocket, mdb, url) {
       socket.emit("message", msg);
     });
 
-    // MEASURE NETWORK LATENCY BETWEEN THE CLIENT AND THE SERVER
-    socket.on("client2server", function() {
-      socket.emit("server2client");
-    });
+    
 
     socket.on("gamelistrequest", function(data) {
       mdb.connect("mongodb://localhost:27017/", function(err, db) {
