@@ -8,6 +8,9 @@ exports = module.exports = function(WebSocket, mdb, url) {
   wss.on("connection", function connection(ws, req) {
     const parameters = url.parse(req.url, true);
     ws.id = parameters.query.id;
+    setTimeout(() => {
+      //ws.terminate();
+    }, 3000);
     console.log(ws.id + " - id connected");
 
     const broadcast = data => {
@@ -198,6 +201,9 @@ exports = module.exports = function(WebSocket, mdb, url) {
                 }
               );
           });
+          break;
+        case "close":
+          console.log(ws.id + " - socket closed");
           break;
         default:
           break;
