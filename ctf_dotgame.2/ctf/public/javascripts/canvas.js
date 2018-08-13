@@ -1,22 +1,40 @@
-let canvas = document.getElementById("canvas");
+const $ = function(q) {
+  return document.querySelector(q);
+};
 
+let ctx = $("canvas").getContext("2d");
+let webworker = new Worker("javascripts/webworker.js");
+let canvas = $("canvas");
 var particles = [];
 
+const drawFlags = () => {};
+
+const clearRect = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
+
+const drawGoalBoundries = () => {};
+
+/*
 canvas.addEventListener("click", function(e) {
   let mx = getMousePos(canvas, e).x;
   let my = getMousePos(canvas, e).y;
   drawScene(mx, my);
 });
 
-function getMousePos(canvas, evt) {
+const drawGoals = () => {
+  db.gameinfo.get(1, function(info) {});
+};
+
+const getMousePos = (canvas, evt) => {
   var rect = canvas.getBoundingClientRect();
   return {
     x: Math.round(evt.clientX - rect.left - 25),
     y: Math.round(evt.clientY - rect.top - 25)
   };
-}
+};
 
-function drawScene(mx, my) {
+const drawScene = (mx, my) => {
   ctx.drawImage(png, mx, my);
 
   var data = ctx.getImageData(0, 0, png.width + mx, png.height + my);
@@ -48,8 +66,8 @@ function drawScene(mx, my) {
   }
 
   requestAnimationFrame(render);
-}
-var render = function() {
+};
+const render = function() {
   requestAnimationFrame(render);
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -59,11 +77,9 @@ var render = function() {
   }
 };
 
-var png = new Image();
-//png.onload = drawScene;
-png.onload = function() {
-  //console.log("loaded");
-};
+const png = new Image();
 png.src = "./images/white-circle.png";
+//png.src = "./images/ww_logo_txt.png";
 //png.src = "./images/white-circle2.png";
 //png.src = "./images/ww_logo-circle.png";
+*/

@@ -1,9 +1,10 @@
-let db;
-db = new Dexie("ctf");
+let db = new Dexie("ctf");
+
 db
   .delete()
   .then(() => {
     db = new Dexie("ctf");
+
     db.version(1).stores({
       //colors: "++id, color, description",
       goals: "++id,who,x,y",
@@ -17,7 +18,7 @@ db
   .then(() => {
     for (i = 1; i <= 10; i++) {
       db.dots.add({
-        who: "guest",
+        who: "host",
         number: i,
         x: 0,
         y: 0,
@@ -30,7 +31,7 @@ db
   .then(() => {
     for (i = 1; i <= 10; i++) {
       db.dots.add({
-        who: "host",
+        who: "guest",
         number: i,
         x: 0,
         y: 0,
@@ -51,7 +52,7 @@ db
   })
   .then(() => {
     db.goalboundry.add({
-      who: "guest",
+      who: "host",
       x: 0,
       y: 0,
       w: 0,
@@ -61,7 +62,7 @@ db
   })
   .then(() => {
     db.goalboundry.add({
-      who: "host",
+      who: "guest",
       x: 0,
       y: 0,
       w: 0,
@@ -71,14 +72,14 @@ db
   })
   .then(() => {
     db.goals.add({
-      who: "guest",
+      who: "host",
       x: 0,
       y: 0
     });
   })
   .then(() => {
     db.goals.add({
-      who: "host",
+      who: "guest",
       x: 0,
       y: 0
     });

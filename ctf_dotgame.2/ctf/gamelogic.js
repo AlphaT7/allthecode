@@ -115,7 +115,10 @@ exports = module.exports = function(WebSocket, mdb, url) {
                       ws.send(
                         JSON.stringify({
                           type: "message",
-                          message: "Room Joined Successfully!"
+                          message:
+                            "Game Channel '" +
+                            data.channel +
+                            "' Has Been Created!"
                         })
                       );
                       broadcast({
@@ -175,7 +178,10 @@ exports = module.exports = function(WebSocket, mdb, url) {
                         ws.send(
                           JSON.stringify({
                             type: "message",
-                            message: "Room Joined Successfully!"
+                            message:
+                              "Game Channel '" +
+                              data.channel +
+                              "' Joined Successfully!"
                           })
                         );
                       })
