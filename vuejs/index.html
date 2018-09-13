@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue.JS WebPage</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+  <section id="container">
+    <input type="text" id="input" v-model="newData">
+    <input type="button" @click="update" value="test" v-bind:title="title">
+    <ul>
+      <li v-for="obj in list" v-text="obj">
+
+      </li>
+    </ul>
+
+
+  </section>
+
+  <script src="js/vue.js"></script>
+  <script src="js/main.js" async></script>
+
+</body>
+
+</html>
