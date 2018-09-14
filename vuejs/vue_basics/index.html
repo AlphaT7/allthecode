@@ -13,13 +13,18 @@
 <body>
   <section id="container">
     <input type="text" id="input" v-model="newData">
-    <input type="button" @click="update" value="test" v-bind:title="title">
+    <button @click="toggleClass" :title="title">Change Color</button>
+    <button @click="update" :title="title">Add Item</button>
+    <h1>To-Do</h1>
     <ul>
-      <li v-for="obj in list" v-text="obj">
-
+      <li v-for="task in list" :class="{'color_blue': colorBlue}">
+        <input type="checkbox" v-model="task.complete" /> {{task.desc}}
       </li>
     </ul>
-
+    <h2>Completed</h2>
+    <ul>
+      <li v-for="task in completeTasks" v-text="task.desc"></li>
+    </ul>
 
   </section>
 
