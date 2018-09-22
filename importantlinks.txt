@@ -3,3 +3,4 @@ https://www.redblobgames.com/ -- must have tutorials on different 2d grid/strate
 https://codemirror.net/ -- embeded code editor
 https://highlightjs.org/ -- code highlighter
 http://youmightnotneedjquery.com/ -- vanilla js jquery alternatives
+https://github.com/AlphaT7/generatedata -- generate your own number of unlimited mock data for any database
