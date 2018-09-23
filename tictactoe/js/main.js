@@ -24,9 +24,8 @@ Vue.component('ww-game', {
                             <div class="tabs">
                                 <div v-for="tab in tabs" class="tab" :class="{ selectedtab: inittab(tab) }" v-text="tab" :id="(tab)" @click="selecttab(tab)"></div>
                             </div>
-                            <div class="panels">
-                              <div v-for="tab in tabs" v-if="tab == selected" v-text="tab" :id="getid(tab)"></div>
-                            </div>
+                            <div class="panels" v-for="panel in panels" v-if="panel.name == selected" v-html="panel.content"></div>  
+                            <img class="ww" src="./img/ww_logo.png"/>                              
                         </div>
                     </div>
                 </div>
@@ -36,8 +35,22 @@ Vue.component('ww-game', {
 	data: function() {
 		return {
 			tabs: ['Create', 'Join', 'ReMatch'],
+			panels: [
+				{
+					name: 'Create',
+					content: `<div class="ng_wrap flex"><input id="newgame" type="text" placeholder="Enter Your Game Name"/><button id="submit_cg" class="btn-green">Create</button></div>`
+				},
+				{
+					name: 'Join',
+					content: `<div class="ng_wrap flex"><select id="joingame"><option>Choose a Game</option></select><button id="submit_jg" class="btn-green">Join</button></div>`
+				},
+				{
+					name: 'ReMatch',
+					content: `<div class="ng_wrap flex"><button id="submit_rm" class="btn-green">ReMatch</button></div>`
+				}
+			],
 			grid: ['T', 'I', 'C', 'T', 'A', 'C', 'T', 'O', 'E'],
-			flipped: false,
+			flipped: true,
 			selected: 'Join'
 		};
 	},
@@ -48,8 +61,8 @@ Vue.component('ww-game', {
 		inittab: function(selectedtab) {
 			return this.selected == selectedtab;
 		},
-		getid: function(selectedtab) {
-			return 'panel_' + selectedtab;
+		showpanel: function(id) {
+			return id.slice(0, -6) == this.selected ? true : false;
 		},
 		selecttab: function(selectedtab) {
 			this.selected = selectedtab;
@@ -64,20 +77,7 @@ Vue.component('ww-game', {
 						.classList.remove('selectedtab');
 				}
 			});
-			//document.querySelector('#' + tab).className = 'selectedtab';
 		}
-	},
-	mounted: function() {
-		/*
-        document.querySelectorAll('.griditem').forEach(element => {
-			element.style.height = element.offsetWidth + 'px';
-		});
-		window.addEventListener('resize', function() {
-			document.querySelectorAll('.griditem').forEach(element => {
-				element.style.height = element.offsetWidth + 'px';
-			});
-        });
-        */
 	}
 });
 let vm = new Vue({
