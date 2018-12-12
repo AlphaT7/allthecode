@@ -13,7 +13,7 @@ section {
 	width: 100%;
 }
 .container {
-	width: 396px;
+	width: 395px;
 	margin: 0 auto;
 }
 .grid {
@@ -32,7 +32,7 @@ section {
 }
 .title {
 	top: 0;
-	margin: 0 auto 50px auto;
+	margin: 0 auto 2px auto;
 	background: rgb(79, 149, 255);
 	color: #fff;
 	width: 100%;
@@ -40,14 +40,14 @@ section {
 .logo {
 	border-right: 1px solid #fff;
 	border-left: 2px solid #fff;
-	width: 130px;
+	width: 131px;
 	height: 130px;
 	background: none;
 	text-align: center;
 	font-size: 100px;
 	cursor: pointer;
 }
-.brand {
+.spacer {
 	width: 132px;
 	height: 130px;
 	border-right: 1px solid #fff;
@@ -55,7 +55,7 @@ section {
 }
 .flip {
 	padding-top: 25px;
-	width: 130px;
+	width: 132px;
 	height: 130px;
 	font-size: 70px;
 	text-align: center;
@@ -72,7 +72,6 @@ section {
 	-o-perspective: 1000;
 	perspective: 1000;
 	position: relative;
-	width: fit-content;
 	margin: 0 auto;
 }
 .flip-container-flipped {
@@ -105,7 +104,7 @@ section {
 .flip-container,
 .front,
 .back {
-	width: 396px;
+	width: 395px;
 	height: 396px;
 }
 .cardfront {
@@ -121,35 +120,33 @@ section {
 	border: 1px solid #555;
 }
 .cardback_content {
-	width: 394px;
-	height: 394px;
+	width: 395px;
+	height: 396px;
 }
 /* CardBack Tabs */
 .tabs {
-	display: flex;
-	max-width: 100%;
-	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 129px);
+	grid-gap: 2px;
 }
 .tab {
 	background: #999;
 	padding: 10px 0 10px 0;
-	height: 50px;
 	cursor: pointer;
-	margin: 0px;
 	text-align: center;
 	color: #fff;
-	border-bottom: 1px solid #555;
 	font-size: 20px;
-	/*transition: background-color 1s linear;*/
+	user-select: none;
 }
 .selectedtab {
 	color: #000 !important;
 	background: #fff;
-	border: 1px solid #fff;
+}
+#ReMatch {
+	width: 131px;
 }
 #Join {
-	border-right: 1px solid #555;
-	border-left: 1px solid #555;
+	width: 129px;
 }
 .hidden {
 	display: none;
@@ -208,6 +205,7 @@ button {
 		inset rgba(0, 0, 0, 0.2) 0px -1px 0px, rgba(0, 0, 0, 0.5) 0px 1px 5px,
 		rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
 	z-index: 0;
+	user-select: none;
 }
 button:focus {
 	outline: 0;

@@ -4,7 +4,7 @@ Vue.component('ww-game', {
             <div class="title">
                 <div class="container flex">
                     <div class="logo">T<sup>3</sup></div>
-                    <div class="brand"></div>
+                    <div class="spacer"></div>
                     <div class="flip" @click="flipcard"><i class="fas fa-cogs"></i></div>
                 </div>
             </div>
@@ -50,7 +50,7 @@ Vue.component('ww-game', {
 				}
 			],
 			grid: ['T', 'I', 'C', 'T', 'A', 'C', 'T', 'O', 'E'],
-			flipped: true,
+			flipped: false,
 			selected: 'Join'
 		};
 	},
